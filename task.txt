@@ -1,0 +1,54 @@
+Task:
+- Incremental
+    points:
+        - Sim
+            - Basic point, get overtime.
+    Buildings:
+        - House (10 Sim)
+            - Reduce death. increase birth
+            - can build Farm increase villager gain        
+        - Hamlet (100 Sim)
+            - Reduce death, increase birth
+        - Village (1000 Sim)
+            - Reduce death, increase house gain
+            - market increase villager gain
+        - Town  (10,000 Sim)
+            - Increase death, increase birth
+        - City (100,000 Sim)
+            - Increase death, increase birth        
+            - Increase invasion chance
+        - Kingdom (1,000,000 Sim)
+            - Increase death, increase birth
+            - Increase invasion chance
+        - Empire (10,000,000 Sim)
+        
+        - Nation (100,000,000 Sim)
+
+        - Superpower Nation (1,000,000,000 Sim)
+
+    Modifiers:
+        - Birth
+            - Increase sim overtime
+        - Death
+            - Reduce sim overtime
+        -Defence
+            - Reduce Invasion size
+        - Invasion
+            - Increase death massively
+            - Have size (size depends)
+
+- Pages:
+    - MAIN:
+        - Title
+        - Sim count
+    - route:
+        - home (hex filling, ups)
+        - House (10 Sim)     
+        - Hamlet (100 Sim)
+        - Village (1000 Sim)
+        - Town  (10,000 Sim)
+        - City (100,000 Sim)
+        - Kingdom (1,000,000 Sim)
+        - Empire (10,000,000 Sim)
+        - Nation (100,000,000 Sim)
+        - Superpower Nation (1,000,000,000 Sim)

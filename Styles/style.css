@@ -1,0 +1,35 @@
+body{
+    background-color:rgb(200, 200, 200);
+}
+
+#container{
+    margin:auto;
+    max-width: 960px;
+    max-height:600px;
+    height:600px;
+    background-color:#fff;
+}
+
+#title-div{
+    font-size:24px;
+    padding:24px 0px;
+    margin: auto;
+    text-align: center;
+    background-color:rgb(203, 192, 235);
+}
+
+#canvas{
+    display: block;
+    float:left;
+}
+
+#panel-container{
+    height: 476px;
+}
+/*
+#panel-container{
+    border:1px;
+    border-style: solid;
+    border-color:black;
+}
+*/
