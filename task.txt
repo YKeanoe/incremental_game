@@ -66,3 +66,7 @@ Task:
     13  46
     11  57
     9   66
+
+
+
+- check page's var every 
