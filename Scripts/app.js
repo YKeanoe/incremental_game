@@ -1,46 +1,104 @@
-function draw() {
-    console.log("aaa");
+function fillCanvas(){
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
         var ctx = canvas.getContext('2d');
         ctx.fillStyle = "blue";
         ctx.fillRect(0, 0, canvas.width, canvas.height);    
-        /*
-        drawTriangle(ctx, 50,50,25,50);
-        drawTriangle(ctx, 50,50,75,50);
-        */
-        /*
-        for(var i=25; i <= 425; i+=50){
-            drawTriangle(ctx, 50,50,i,50);
-            drawTriangleInvert(ctx, 50,50,i+25,50);
-        }
-        */
+        
     }
 }
 
-function drawTriangle(ctx, width, height, x, y){
+function draw(num) {
+    var canvas = document.getElementById('canvas');
+    if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+
+        if(num > 66){
+            return;
+        }
+
+        var triangleSideLength = 10;
+        var TriangleHalfSideLength = 5;
+
+        var offset1 = TriangleHalfSideLength * 2;
+        var offset2 = TriangleHalfSideLength;
+
+        var rowY = 10;
+        var rowYOffset = rowY * 2;
+
+        if(num<=9){
+            // Top first part of hex
+            if(num%2==0){
+                drawTriangleInvert(ctx, triangleSideLength,(num*TriangleHalfSideLength)+offset1,rowY);            
+            }else{
+                drawTriangle(ctx, triangleSideLength,(num*TriangleHalfSideLength)+offset1,rowY);
+            }
+        } else if(num<=20){
+            // Top second part of hex
+            if(num%2!=0){
+                drawTriangleInvert(ctx, triangleSideLength,((num-9)*TriangleHalfSideLength)+offset2,(rowY*2));            
+            }else{
+                drawTriangle(ctx, triangleSideLength,((num-9)*TriangleHalfSideLength)+offset2,(rowY*2));
+            }
+        } else if(num<=33){
+            // Top third part of hex
+            if(num%2==0){
+                drawTriangleInvert(ctx, triangleSideLength,(num-20)*TriangleHalfSideLength,(rowY*3));            
+            }else{
+                drawTriangle(ctx, triangleSideLength,(num-20)*TriangleHalfSideLength,(rowY*3));
+            }
+        } else if(num<=46){
+            // Middle bottom part of hex
+            if(num%2!=0){
+                drawTriangle(ctx, triangleSideLength,(num-33)*TriangleHalfSideLength,(rowY*4));
+            }else{
+                drawTriangleInvert(ctx, triangleSideLength,(num-33)*TriangleHalfSideLength,(rowY*4));            
+            }
+        } else if(num<=57){
+            // Middle bottom part of hex
+            if(num%2==0){
+                drawTriangle(ctx, triangleSideLength,((num-46)*TriangleHalfSideLength)+offset2,(rowY*5));
+            }else{
+                drawTriangleInvert(ctx, triangleSideLength,((num-46)*TriangleHalfSideLength)+offset2,(rowY*5));            
+            }
+        } else{
+            // Bottom part of hex
+            if(num%2!=0){
+                drawTriangle(ctx, triangleSideLength,((num-57)*TriangleHalfSideLength)+offset1,(rowY*6));
+            }else{
+                drawTriangleInvert(ctx, triangleSideLength,((num-57)*TriangleHalfSideLength)+offset1,(rowY*6));            
+            }
+        }
+    }
+}
+
+// function to draw /\ triangle,
+function drawTriangle(ctx, side, x, y){
     ctx.beginPath();
-    ctx.moveTo(x,y);
-    ctx.lineTo(x-(width/2),100);
-    ctx.lineTo(x+(width/2),100);
+    // move to bottom left
+    ctx.moveTo(x,y+side);
+    // line to bottom right
+    ctx.lineTo(x+side, y+side);
+    // line to top
+    ctx.lineTo(x+(side/2),y);
     ctx.fillStyle="red";
     ctx.fill();
     ctx.closePath();
 }
 
-function drawTriangleInvert(ctx, width, height, x, y){
+// function to draw \/ triangle
+function drawTriangleInvert(ctx, side, x, y){
     ctx.beginPath();
-    ctx.moveTo(x,y+height);
-    ctx.lineTo(x-(width/2),y);
-    ctx.lineTo(x+(width/2),y);
-    ctx.fillStyle="blue";
+    // move to top left
+    ctx.moveTo(x,y);
+    // line to top right
+    ctx.lineTo(x+side, y);
+    // line to bottom
+    ctx.lineTo(x+(side/2),y+side);
+    ctx.fillStyle="green";
     ctx.fill();
     ctx.closePath();
 }
-
-//$(document).ready(function(){
-    //draw();
-//});
 
 var app = angular.module("myApp", ['ngRoute', 'ngResource']);
 app.factory('userService', ['$rootScope', function ($rootScope) {
@@ -82,13 +140,14 @@ app.controller('appController', function(userService, $scope, $interval) {
     $scope.empire = 0;
     $scope.spnation = 0;
     $scope.$on('$routeChangeSuccess', function() {
-        draw();
+        fillCanvas();
     });
     
     $interval(function () {
         $scope.sim ++;
-        userService.model.sim = $scope.sim;      
-    }, 1000);
+        userService.model.sim = $scope.sim;  
+        draw($scope.sim);
+    }, 500);
 
 });
 app.config(function($routeProvider, $locationProvider) {
