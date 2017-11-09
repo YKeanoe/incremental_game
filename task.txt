@@ -54,19 +54,14 @@ Task:
         - Superpower Nation (1,000,000,000 Sim)
 
 - Hex grid:
-    - 1 Hex have 24 triangles
-    odd     9       7
-    odd+2   11      9
-    odd+2   11      9
-    odd     9       7
+    - 1 Hex have 66 triangles
+        - 1 triangle is 12x12 size.
+        - 1 grid is 84x72
+        - 9-11-13-13-11-9
 
-    9
-    11  20
-    13  33
-    13  46
-    11  57
-    9   66
+    
 
 
+- check page's var every 17ms (60fps)
+    if page's var different than model var, add the rest
 
-- check page's var every 
