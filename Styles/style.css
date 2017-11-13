@@ -33,3 +33,8 @@ body{
     border-color:black;
 }
 */
+
+.panel-side{
+    width:31.3%;
+    float:left;
+}

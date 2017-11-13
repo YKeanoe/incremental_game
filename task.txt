@@ -58,9 +58,7 @@ Task:
         - 1 triangle is 12x12 size.
         - 1 grid is 84x72
         - 9-11-13-13-11-9
-
     
-
 
 - check page's var every 17ms (60fps)
     if page's var different than model var, add the rest

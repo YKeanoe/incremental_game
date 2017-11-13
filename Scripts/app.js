@@ -32,61 +32,69 @@ function draw(x, y, num) {
         var offset1 = TriangleHalfSideLength * 2;
         var offset2 = TriangleHalfSideLength;
 
-        var rowY = triangleSideLength;
+        var rowY = y;
+
+        //var rowY = triangleSideLength;
+
         var rowYOffset = rowY * 2;
 
-        var rowX = 0;
+        var rowX = x;
         var rowNum = num - 1;
         if(num==0){
             // no triangle
             return;
         } else if(num<=9){
             // Top first part of hex
-            rowX = (rowNum*TriangleHalfSideLength)+offset1;
+            rowX += (rowNum*TriangleHalfSideLength)+offset1;
             if(num%2==0){
-                drawTriangleInvert(ctx, triangleSideLength,rowX,0);            
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY);            
             }else{
-                drawTriangle(ctx, triangleSideLength,rowX,0);
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }
         } else if(num<=20){
             // Top second part of hex
-            rowX = ((rowNum-9)*TriangleHalfSideLength)+offset2;         
+            rowX += ((rowNum-9)*TriangleHalfSideLength)+offset2; 
+            rowY += triangleSideLength;
             if(num%2!=0){
-                drawTriangleInvert(ctx, triangleSideLength,rowX,(rowY*1));            
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY);            
             }else{
-                drawTriangle(ctx, triangleSideLength,rowX,(rowY*1));
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }
         } else if(num<=33){
             // Top third part of hex
-            rowX = (rowNum-20)*TriangleHalfSideLength;
+            rowX += (rowNum-20)*TriangleHalfSideLength;
+            rowY += triangleSideLength*2;
             if(num%2==0){ 
-                drawTriangleInvert(ctx, triangleSideLength,rowX,(rowY*2));            
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY);            
             }else{
-                drawTriangle(ctx, triangleSideLength,rowX,(rowY*2));
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }
         } else if(num<=46){
             // Middle bottom part of hex
-            rowX = (rowNum-33)*TriangleHalfSideLength;
+            rowX += (rowNum-33)*TriangleHalfSideLength;
+            rowY += triangleSideLength*3;
             if(num%2!=0){
-                drawTriangle(ctx, triangleSideLength,rowX,(rowY*3));
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }else{
-                drawTriangleInvert(ctx, triangleSideLength,rowX,(rowY*3));            
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY);            
             }
         } else if(num<=57){
             // Middle bottom part of hex
-            rowX = ((rowNum-46)*TriangleHalfSideLength)+offset2;
+            rowX += ((rowNum-46)*TriangleHalfSideLength)+offset2;
+            rowY += triangleSideLength*4;
             if(num%2==0){
-                drawTriangle(ctx, triangleSideLength,rowX,(rowY*4));
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }else{
-                drawTriangleInvert(ctx, triangleSideLength,rowX,(rowY*4));            
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY);            
             }
         } else{
             // Bottom part of hex
-            rowX = ((rowNum-57)*TriangleHalfSideLength)+offset1;
+            rowX += ((rowNum-57)*TriangleHalfSideLength)+offset1;
+            rowY += triangleSideLength*5;
             if(num%2!=0){
-                drawTriangle(ctx, triangleSideLength,rowX,(rowY*5));
+                drawTriangle(ctx, triangleSideLength,rowX,rowY);
             }else{
-                drawTriangleInvert(ctx, triangleSideLength,rowX,(rowY*5)); 
+                drawTriangleInvert(ctx, triangleSideLength,rowX,rowY); 
             }
         }
     }
@@ -130,10 +138,36 @@ app.factory('ModelInterval', function ($interval, userService){
 // a hex is 84x72
 app.factory('GridLocation', function(){
     var GridLocation = [
-        [63,0],
-        [0,36],
-        [63,72],
-        [126,36]
+        [137,10],
+
+        [69,47],
+        [137,84],
+        [205,47],
+        
+        [1,84],
+        [69,121],
+        [137,158],
+        [205,121],
+        [273,84],
+
+        [1,158],
+        [69,195],
+        [137,232],
+        [205,195],
+        [273,158],
+
+        [1,232],
+        [69,269],
+        [137,306],
+        [205,269],
+        [273,232],
+
+        [1,306],
+        [69,343],
+        [137,380],
+        [205,343],
+        [273,306]
+
     ];
     return GridLocation;
 });
@@ -217,23 +251,31 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
 
     $scope.$on('$routeChangeSuccess', function() {
         fillCanvas();
+        $scope.checkGrid();
     });
-
-
-    /*
-    function checkGrid(){
+    
+    $scope.checkGrid = function(){
+        console.log($scope.sim + " ? " + userService.model.sim)
         if($scope.sim < userService.model.sim){
             var difference = $scope.sim - userService.model.sim;
+            console.log("aaa");
         }
+        var loc = GridLocation;       
+        var grid = Math.floor($scope.sim / 66);
+        for(var i = 1; i<=$scope.sim; i++){
+            var rownum = i % 67;            
+            draw(loc[grid][0],loc[grid][1], rownum);
+        }
+        
     }
-    */
-    
+
+
     $interval(function () {
         $scope.sim = userService.model.sim;        
         if($scope.sim == 0){
             return;
         } else{
-            var grid = Math.floor($scope.sim / 66);
+            var grid = Math.floor($scope.sim / 67);
             var rownum = $scope.sim % 67;
             var loc = GridLocation;
             draw(loc[grid][0],loc[grid][1], rownum);    
