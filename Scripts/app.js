@@ -352,9 +352,9 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     // stopPageInterval, like the name suggest, stops the page's
     // interval and set the counter to undefined.
     function stopPageInterval(){
-        $interval.cancel(counter)
+        $interval.cancel(counter);
         counter = undefined;
-    };
+    }
 
     // From ifvisible.js, it check if the browser is not focused.
     // Called only when the page is fully closed (different browser
