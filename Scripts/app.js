@@ -246,7 +246,7 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
             RestoreState: function () {
                 service.model = angular.fromJson(sessionStorage.userService);
             }
-        }
+        };
         $rootScope.$on("savestate", service.SaveState);
         $rootScope.$on("restorestate", service.RestoreState);
         return service;
@@ -299,21 +299,22 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         var diff = $scope.sim - pageTriangles;
         // Get the grid locations
         var loc = GridLocation;  
+        var grid, rownum;
 
         if(diff == 0){
             // If there's not difference, then return
             return;
         } else if(diff == 1){
             // If there's only 1 difference, then add 1 triangle
-            var grid = Math.floor(pageTriangles / 67);            
-            var rownum = pageTriangles % 67;            
+            grid = Math.floor(pageTriangles / 67);            
+            rownum = pageTriangles % 67;            
             draw(loc[grid][0],loc[grid][1], rownum);
             pageTriangles++;
         } else if (diff > 1){
             // If there are more than 1 difference, then add using for loop
             for(var i = pageTriangles; i<=$scope.sim; i++){
-                var grid = Math.floor(i / 67);            
-                var rownum = i % 67;            
+                grid = Math.floor(i / 67);            
+                rownum = i % 67;            
                 draw(loc[grid][0],loc[grid][1], rownum);
                 pageTriangles++;
             }           
@@ -335,24 +336,25 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
             // Check grid
             checkGrid();
         }, 17);//17ms interval is 60fps
-    }
+    };
 
     $scope.test = function(){
         console.log("aaa");
         $interval.cancel($scope.modelInterval);
         $scope.modelInterval = undefined;
-        
-    }
+    };
+
     $scope.test2 = function(){
         console.log("aaa2");
         $scope.modelInterval = ModelInterval;
-    }
+    };
+
     // stopPageInterval, like the name suggest, stops the page's
     // interval and set the counter to undefined.
     function stopPageInterval(){
         $interval.cancel(counter)
         counter = undefined;
-    }
+    };
 
     // From ifvisible.js, it check if the browser is not focused.
     // Called only when the page is fully closed (different browser
@@ -391,5 +393,5 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/hamlet", {
         controller : 'houseController',        
         templateUrl : 'Pages/hamlet.html'
-    })       
+    });
 });
