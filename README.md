@@ -1,7 +1,8 @@
 Incremental Game
 ==============================================
+Master Branch : [![Build Status](https://travis-ci.org/ZankiMaru/incremental_game.svg?branch=master)](https://travis-ci.org/ZankiMaru/incremental_game)
 
-[![Build Status](https://travis-ci.org/ZankiMaru/incremental_game.svg?branch=dev)](https://travis-ci.org/ZankiMaru/incremental_game)
+Dev Branch : [![Build Status](https://travis-ci.org/ZankiMaru/incremental_game.svg?branch=dev)](https://travis-ci.org/ZankiMaru/incremental_game)
 
 I can't think of a good name yet for this game but it is an incremental / idle game. The idea is to manage a civilization starting from a house with 2 sim up to a super power nation. I might add more features but my current goal is to successfully build a basic incremental app. 
 
