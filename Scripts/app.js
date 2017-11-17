@@ -6,17 +6,20 @@ function fillCanvas(){
         // ctx.fillRect(0, 0, canvas.width, canvas.height);    
     }
 }
+function clearCanvas(){
+    var canvas = document.getElementById('canvas');
+    if (canvas.getContext) {
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+    }
+}
 
 // Main draw function for the hex grid. Takes parameter of
 // x and y for the grid top left location, and num for the
 // nth triangles. 
 // SPAGHETTI CODE WARNING
 function draw(x, y, num, type) {
-    // if(type == 0){
-    //     num++
-    // }
     num ++; 
-    console.log("drawing " + num);
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
         var ctx = canvas.getContext('2d');
@@ -142,7 +145,7 @@ var app = angular.module("myApp", ['ngRoute', 'ngResource']);
 app.factory('ModelInterval', function ($interval, userService){
     var interval = $interval(function () {
         userService.UpdateModel();
-    }, 300);
+    }, 17);
     return interval;
 });
 
@@ -254,15 +257,18 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
             },
 
             UpdateModel: function(){
-                service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.3;
+                service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.017;
                 //console.log("tick");
             },
 
             BuyHouse: function(num){
-                // service.model.house += num;
-                // service.model.sim -= num * 10;
-                service.model.sim -= 1;
-                
+                service.model.house += num;
+                service.model.sim -= num * 10;  
+                service.UpdateModifier();         
+            },
+
+            UpdateModifier: function(){
+                service.modifier.sim = 1 /* Base */ + (0.5 * service.model.house);
             },
 
             SaveState: function () {
@@ -304,6 +310,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     // start the page interval.
     $scope.$on('$routeChangeSuccess', function() {
         $scope.sim = userService.model.sim;        
+        $scope.house = userService.model.house;        
         //fillCanvas();
         checkGrid();
         $scope.pageInterval();
@@ -320,15 +327,14 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     // checkGrid function checks the current page triangles
     // with the data. 
     function checkGrid(){
+        // Return if nothing to draw.
         if(Math.floor($scope.sim) == 0 && pageTriangles == 0){
             return;
         }
-        //console.log($scope.sim + " ? " + pageTriangles)
         
         // Count the difference page's triangles with the data
         var diff = Math.floor($scope.sim) - pageTriangles;
 
-        //console.log("diff = " + diff);
         // Get the grid locations
         var loc = GridLocation;  
         var grid, rownum;
@@ -338,7 +344,6 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
             return;
         } else{
             if(diff > 0){
-                console.log("1+ diff");
                 // If there are positive difference, add using loop
                 for(var i = pageTriangles; i<Math.floor($scope.sim); i++){
                     grid = Math.floor(i / 66);            
@@ -347,9 +352,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
                     pageTriangles++;
                 }
             } else{
-                console.log("1- diff");
-                console.log("scopesim" + $scope.sim);
-                console.log("sersim" + userService.model.sim);
+                /*
                 // If there are negative difference, add using loop
                 for(var i = pageTriangles; i>Math.floor($scope.sim); i--){
                     console.log("rem" + i);
@@ -357,7 +360,12 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
                     rownum = i % 66;            
                     draw(loc[grid][0],loc[grid][1], rownum-1, 1);
                     pageTriangles--;
-                }
+                }*/
+                // Changed to just clear canvas and redraw from scratch.
+                // Clearing each triangles leave some pixels
+                clearCanvas();
+                pageTriangles = 0;
+                checkGrid();
             }
         }  
     }
@@ -370,6 +378,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         counter = $interval(function(){
             // Save scopes var from service
             $scope.sim = userService.model.sim;
+            $scope.house = userService.model.house;
             // return if var is 0 (nothing to draw)     
             if($scope.sim == 0){
                 return;
@@ -421,7 +430,8 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
             userService.UpdateModel();            
         }
         $scope.sim = userService.model.sim;
-
+        $scope.house = userService.model.house;
+        
         // Check grid and start page interval.
         checkGrid();
         $scope.pageInterval();
