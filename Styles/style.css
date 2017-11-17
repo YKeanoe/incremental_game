@@ -21,6 +21,7 @@ body{
 #canvas{
     display: block;
     float:left;
+    background-color : black;
 }
 
 #panel-container{
