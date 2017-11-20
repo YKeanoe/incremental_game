@@ -38,4 +38,26 @@ body{
 .panel-side{
     width:31.3%;
     float:left;
+    padding: 10px 10px;
+}
+
+h1{
+    font-size: 22px;
+}
+
+.birth{
+    color:green;
+}
+
+.death{
+    color:red;
+}
+
+h2{
+    font-size: 18px;
+}
+
+.grey{
+    font-size: 14px;
+    color: grey;
 }

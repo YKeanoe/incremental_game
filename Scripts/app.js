@@ -164,50 +164,61 @@ app.factory('GridLocation', function(){
     var xOffset = 46;
     var yOffset = 25;
     
+    var xOffsetCenter = 5;
+    var yOffsetcenter = 10;
+
     var GridLocation = [
-        [xOffset*3,yOffset*0],
+        [(xOffset*3+xOffsetCenter),(yOffset*0+yOffsetcenter)],
 
-        [xOffset*2,yOffset*1],
-        [xOffset*3,yOffset*2],
-        [xOffset*4,yOffset*1],
+        [(xOffset*2+xOffsetCenter),(yOffset*1+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*2+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*1+yOffsetcenter)],
         
-        [xOffset*1,yOffset*2],
-        [xOffset*2,yOffset*3],
-        [xOffset*3,yOffset*4],
-        [xOffset*4,yOffset*3],
-        [xOffset*5,yOffset*2],
+        [(xOffset*1+xOffsetCenter),(yOffset*2+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*3+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*4+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*3+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*2+yOffsetcenter)],
+                
+        [(xOffset*0+xOffsetCenter),(yOffset*3+yOffsetcenter)],
+        [(xOffset*1+xOffsetCenter),(yOffset*4+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*5+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*6+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*5+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*4+yOffsetcenter)],
+        [(xOffset*6+xOffsetCenter),(yOffset*3+yOffsetcenter)],
 
-        [xOffset*0,yOffset*3],
-        [xOffset*1,yOffset*4],
-        [xOffset*2,yOffset*5],
-        [xOffset*3,yOffset*6],
-        [xOffset*4,yOffset*5],
-        [xOffset*5,yOffset*4],
-        [xOffset*6,yOffset*3],
+        [(xOffset*0+xOffsetCenter),(yOffset*5+yOffsetcenter)],
+        [(xOffset*1+xOffsetCenter),(yOffset*6+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*7+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*8+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*7+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*6+yOffsetcenter)],
+        [(xOffset*6+xOffsetCenter),(yOffset*5+yOffsetcenter)],
         
-        [xOffset*0,yOffset*5],
-        [xOffset*1,yOffset*6],
-        [xOffset*2,yOffset*7],
-        [xOffset*3,yOffset*8],
-        [xOffset*4,yOffset*7],
-        [xOffset*5,yOffset*6],
-        [xOffset*6,yOffset*5],
- 
-        [xOffset*0,yOffset*7],
-        [xOffset*1,yOffset*8],
-        [xOffset*2,yOffset*9],
-        [xOffset*3,yOffset*10],
-        [xOffset*4,yOffset*9],
-        [xOffset*5,yOffset*8],
-        [xOffset*6,yOffset*7],
-   
-        [xOffset*0,yOffset*9],
-        [xOffset*1,yOffset*10],
-        [xOffset*2,yOffset*11],
-        [xOffset*3,yOffset*12],
-        [xOffset*4,yOffset*11],
-        [xOffset*5,yOffset*10],
-        [xOffset*6,yOffset*9]
+        [(xOffset*0+xOffsetCenter),(yOffset*7+yOffsetcenter)],
+        [(xOffset*1+xOffsetCenter),(yOffset*8+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*9+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*10+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*9+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*8+yOffsetcenter)],
+        [(xOffset*6+xOffsetCenter),(yOffset*7+yOffsetcenter)],
+
+        [(xOffset*0+xOffsetCenter),(yOffset*9+yOffsetcenter)],
+        [(xOffset*1+xOffsetCenter),(yOffset*10+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*11+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*12+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*11+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*10+yOffsetcenter)],
+        [(xOffset*6+xOffsetCenter),(yOffset*9+yOffsetcenter)],
+
+        [(xOffset*0+xOffsetCenter),(yOffset*11+yOffsetcenter)],
+        [(xOffset*1+xOffsetCenter),(yOffset*12+yOffsetcenter)],
+        [(xOffset*2+xOffsetCenter),(yOffset*13+yOffsetcenter)],
+        [(xOffset*3+xOffsetCenter),(yOffset*14+yOffsetcenter)],
+        [(xOffset*4+xOffsetCenter),(yOffset*13+yOffsetcenter)],
+        [(xOffset*5+xOffsetCenter),(yOffset*12+yOffsetcenter)],
+        [(xOffset*6+xOffsetCenter),(yOffset*11+yOffsetcenter)]
     ];
     return GridLocation;
 });
@@ -270,6 +281,14 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
             UpdateModifier: function(){
                 service.modifier.sim = 1 /* Base */ + (0.5 * service.model.house);
             },
+            
+            GetSimRate: function(){
+                return (service.basePointsPerSecond.sim * service.modifier.sim) - 0 /* deat rate*/;
+            },
+
+            GetBirthRate: function(){
+                return (service.basePointsPerSecond.sim * service.modifier.sim);
+            },
 
             SaveState: function () {
                 sessionStorage.userService = angular.toJson(service.model);
@@ -283,20 +302,14 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
         return service;
     }]);
     
-app.controller('houseController', function(userService, ModelInterval, GridLocation, $scope, $interval, $location) {
+app.controller('houseController', function(userService, ModelInterval, GridLocation, $scope, $interval, $location, $route) {
     // Scope for variables
-    $scope.zenny = userService.model.zenny;
-    $scope.sim = userService.model.sim;
-    $scope.house = userService.model.house;
-    $scope.hamlet = userService.model.hamlet;
-    $scope.village = userService.model.village;
-    $scope.town = userService.model.town;
-    $scope.city = userService.model.city;
-    $scope.kingdom = userService.model.kingdom;
-    $scope.empire = userService.model.empire;
-    $scope.spnation = userService.model.spnation;
+    updatePageScope();
+
     // Scope for main interval service
-    $scope.modelInterval = ModelInterval;
+    $scope.modelInterval = ModelInterval;    
+
+    $scope.testvar = 1;
 
     // Counter to store page's interval
     var counter;
@@ -323,6 +336,38 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         ifvisible.off('focus');
         stopPageInterval();
     });
+
+    function updatePageScope(){
+        $scope.zenny = userService.model.zenny;
+        $scope.sim = userService.model.sim;
+
+        // To be added. birth and death rate
+        $scope.birthRate = userService.GetBirthRate();
+    
+        $scope.simRate = userService.GetSimRate();
+
+        if($route.current.originalPath == "/"){
+            $scope.house = userService.model.house;        
+        } else if($route.current.originalPath == "/hamlet"){
+            $scope.hamlet = userService.model.hamlet;        
+        }else if($route.current.originalPath == "/village"){
+            $scope.village = userService.model.village;        
+        }else if($route.current.originalPath == "/town"){
+            $scope.town = userService.model.town;        
+        }else if($route.current.originalPath == "/city"){
+            $scope.city = userService.model.city;        
+        }else if($route.current.originalPath == "/kingdom"){
+            $scope.kingdom = userService.model.kingdom;        
+        }else if($route.current.originalPath == "/empire"){
+            $scope.empire = userService.model.empire;        
+        }else {
+            $scope.spnation = userService.model.spnation;        
+        }
+    }
+
+    $scope.test = function(){
+        return 1;
+    }
 
     // checkGrid function checks the current page triangles
     // with the data. 
@@ -377,23 +422,36 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         // Turn on interval
         counter = $interval(function(){
             // Save scopes var from service
-            $scope.sim = userService.model.sim;
-            $scope.house = userService.model.house;
+            updatePageScope();
+            
             // return if var is 0 (nothing to draw)     
             if($scope.sim == 0){
                 return;
+            } else{
+                checkGrid();            
             }
-            // Check grid
-            checkGrid();
         }, 17);//17ms interval is 60fps
     };
 
-    $scope.buyHouse = function(){
-        userService.BuyHouse(1);
+    $scope.buyHouse = function(num){
+        if(num == 1){
+            userService.BuyHouse(1);            
+        } else if(num == 2){
+            if($scope.sim/20 >= 1) {
+                userService.BuyHouse(Math.floor($scope.sim/20));            
+            } else{
+                userService.BuyHouse(Math.floor(1));
+            }
+        }else if(num == 3){
+            userService.BuyHouse(Math.floor($scope.sim/10));            
+        } else{
+            // *1 to change iHouse to int
+            userService.BuyHouse($scope.iHouse*1);            
+        }
+        
     };
 
     $scope.test2 = function(){
-        console.log("aaa2");
         $scope.modelInterval = ModelInterval;
     };
 
@@ -415,27 +473,25 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     });
     
     // From ifvisible.js, it check if the browser is back to focused.
+    // Capture the time of focused and add it to the data
+    // not sure if it's chrome specific function, but the 
+    // main interval function stops when the browser is not focused.
+    // So onBlur capture the time when page is blurred and 
+    // onFocus should capture the focused time and add the counter
+    // in between.
     ifvisible.on("focus", function(){
-        // TO DO
-        // Capture the time of focused and add it to the data
-        // not sure if it's chrome specific function, but the 
-        // main interval function stops when the browser is not focused.
-        // So onBlur should capture the time when page is blurred and 
-        // onFocus should capture the focused time and add the counter
-        // in between.
         var timeStart = Date.now();
         var timeRange = timeStart - stopTimer;
-        var ticks = timeRange / 300;
+        var ticks = timeRange / 17;
         for(var i = 0; i < ticks; i++){
-            userService.UpdateModel();            
+            userService.UpdateModel(); 
         }
-        $scope.sim = userService.model.sim;
-        $scope.house = userService.model.house;
-        
+        updatePageScope();
         // Check grid and start page interval.
         checkGrid();
         $scope.pageInterval();
     });
+
 });
 
 // Route config for SPA (Single-Page-Application)
