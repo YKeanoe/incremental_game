@@ -1,3 +1,5 @@
+var red = "#EB9282", orange = "#EBC382", blue = "#5B779A", green = "#5FAC79";
+
 function fillCanvas(){
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
@@ -6,6 +8,7 @@ function fillCanvas(){
         // ctx.fillRect(0, 0, canvas.width, canvas.height);    
     }
 }
+
 function clearCanvas(){
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
@@ -44,61 +47,61 @@ function draw(x, y, num, type) {
             // Top first part of hex
             rowX += ( rowNum * triangleHalfSideLength ) + offset1;
             if(num % 2 == 0) {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, blue);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, orange);
             }
         } else if(num <= 20) {
             // Top second part of hex
             rowX += ((rowNum - 9) * triangleHalfSideLength) + offset2; 
             rowY += triangleSideLength;
             if(num % 2 != 0) {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, green);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, red);
             }
         } else if(num <= 33) {
             // Top third part of hex
             rowX += (rowNum - 20) * triangleHalfSideLength;
             rowY += triangleSideLength * 2;
             if(num % 2 == 0) { 
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, green);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, blue);
             }
         } else if(num <= 46) {
             // Middle bottom part of hex
             rowX += (rowNum - 33) * triangleHalfSideLength;
             rowY += triangleSideLength * 3;
             if(num %2 != 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, orange);
             } else {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, blue);            
             }
         } else if(num <= 57) {
             // Middle bottom part of hex
             rowX += ((rowNum - 46) * triangleHalfSideLength) + offset2;
             rowY += triangleSideLength * 4;
             if(num % 2 == 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, red);
             } else{
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, orange);            
             }
         } else{
             // Bottom part of hex
             rowX += ((rowNum - 57) * triangleHalfSideLength) + offset1;
             rowY += triangleSideLength * 5;
             if(num %2 != 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, blue);
             } else {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type); 
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, green); 
             }
         }
     }
 }
 
 // function to draw /\ triangle,
-function drawTriangle(ctx, side, x, y, type){
+function drawTriangle(ctx, side, x, y, type, color){
     if(type==0){
         ctx.globalCompositeOperation='source-over';
     } else{        
@@ -112,14 +115,14 @@ function drawTriangle(ctx, side, x, y, type){
     ctx.lineTo(x + side, y + side);
     // line to top
     ctx.lineTo(x + (side / 2), y);
-        ctx.fillStyle="white";        
     
+    ctx.fillStyle=color;        
     ctx.fill();
     ctx.closePath();
 }
 
 // function to draw \/ triangle
-function drawTriangleInvert(ctx, side, x, y, type){
+function drawTriangleInvert(ctx, side, x, y, type, color){
     if(type==0){
         ctx.globalCompositeOperation='source-over';
     } else{        
@@ -134,7 +137,7 @@ function drawTriangleInvert(ctx, side, x, y, type){
     // line to bottom
     ctx.lineTo(x + (side / 2), y + side);
     
-    ctx.fillStyle="white";        
+    ctx.fillStyle=color;        
     
     ctx.fill();
     ctx.closePath();
@@ -367,7 +370,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
 
     $scope.test = function(){
         return 1;
-    }
+    };
 
     // checkGrid function checks the current page triangles
     // with the data. 
