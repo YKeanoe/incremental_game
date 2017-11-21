@@ -2,6 +2,7 @@
     <div class="panel-side left-div">
         <h1>
             Sim <span class="grey">+{{simRate}}/second</span>
+            <br />
             {{sim | round:'':'down'}} 
             <br />
             <span class="add-info">
@@ -11,8 +12,10 @@
             </span>
         </h1>
 
-        <h1>House</h1>
-        <h2>{{house | round:'':'down'}}</h2>
+        <h1>Zenny <span class="grey">+{{zennyRate | number : 2}}/second</span>
+
+        </h1>
+        <h2>{{zenny | number : 2 }}</h2>
     </div>
     <canvas id="canvas" width=358 height=476>
         Your browser does not support the HTML5 canvas tag.
@@ -20,6 +23,8 @@
     <div class="panel-side right-div">
         House ({{house}})
         <br />
+        Each house increase birth rate 0.5 and decrease death rate by x.
+        <br /> 
         <button ng-disabled="sim<10" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
         <button ng-disabled="sim<10" ng-click="buyHouse(2)" type="button" class="btn btn-outline-primary">Buy {{sim/20>=1 ? sim/20 : 1 | round:'':'down'}}</button>
         <button ng-disabled="sim<10" ng-click="buyHouse(3)" type="button" class="btn btn-outline-primary">Buy {{sim/10>=1 ? sim/10 : 1 | round:'':'down'}}</button>
@@ -27,7 +32,9 @@
         <input ng-model="iHouse" ng-init="iHouse=1" type="text" name="lname" value="1" ng-pattern="/^[0-9]*$/">
         <button ng-disabled="sim<iHouse*10" ng-click="buyHouse(4)" type="button" class="btn btn-outline-primary">Buy {{iHouse}}</button>        
         <hr>
-        Upgrades ()
+        Farm ({{farm}})
+        <br />
+        Each farm increase the birth rate for houses by 10%.
         <br />
         <button ng-click="test2()" type="button" class="btn btn-outline-primary">Buy 1</button>
         <hr>
