@@ -1,13 +1,18 @@
 var red = "#EB9282", orange = "#EBC382", blue = "#5B779A", green = "#5FAC79";
 
+// http://paletton.com/#uid=75y0F0ke6tYejj-fqnUeGzPg2Gb
+// http://paletton.com/#uid=73n0o0k4Oqu0JK-2uvq7Gmgb4ik
+
 var red1 = "#B55E6A", red2 = "#E37F8D", red3 = "#F77B8C";
 var orange1 = "#BE9163", orange2 = "#EFBB86", orange3 = "#FFC07F";
 var blue1 = "#3F6A76", blue2 = "#558795", blue3 = "#63ACC0";
 var green1 = "#66A154", green2 = "#87CB71", green3 = "#8EE673";
 
 var colors = ["#B55E6A", "#E37F8D", "#F77B8C", "#BE9163",
-            "#EFBB86", "#FFC07F", "#3F6A76", "#558795", 
-            "#63ACC0", "#66A154", "#87CB71", "#8EE673"];
+            "#EFBB86", "#FFC07F", "#9C9FA7", "#7A808D", 
+            "#5D6576", "#66A154", "#87CB71", "#8EE673"];
+
+var randomizer = 0;
 
 function fillCanvas(){
     var canvas = document.getElementById('canvas');
@@ -52,8 +57,26 @@ function draw(x, y, num, type) {
         var rowNum = num - 1;
 
 
-        var rand = Math.floor(Math.random() * 11);        
+        var rand, color;
+        if(randomizer == 0){
+            console.log("new");
+            rand = Math.floor(Math.random() * 11);        
+        } else{
+            console.log("2nd or something");
+            
+            var xMax = (randomizer * 3) - 1;
+            var xMin = randomizer - 1;
+
+            rand = randomizer;
+            while(rand >= xMin && rand <= xMax){
+                rand = Math.floor(Math.random() * 11);        
+            }
+        }
         var color = colors[rand];
+
+        randomizer = Math.ceil((rand+1) / 3);
+
+        console.log(randomizer);
 
         if(num <= 9) {
             // Top first part of hex
@@ -188,8 +211,8 @@ app.factory('GridLocation', function(){
     var xOffset = 46;
     var yOffset = 25;
     
-    var xOffsetCenter = 5;
-    var yOffsetcenter = 10;
+    var xOffsetCenter = 10;
+    var yOffsetcenter = 20;
 
     var GridLocation = [
         [(xOffset*3+xOffsetCenter),(yOffset*0+yOffsetcenter)],
@@ -301,6 +324,7 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
             BuyHouse: function(num){
                 service.model.house += num;
                 service.model.sim -= num * 10;  
+                service.model.zenny -= num * 5;
                 service.UpdateModifier();         
             },
 

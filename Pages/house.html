@@ -23,9 +23,10 @@
     <div class="panel-side right-div">
         House ({{house}})
         <br />
-        Each house increase birth rate 0.5 and decrease death rate by x.
+        Cost 10 Sim and 5 Zenny.
+        Each house increase birth rate by 0.5 and decrease death rate by x.
         <br /> 
-        <button ng-disabled="sim<10" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+        <button ng-disabled="sim<10 || zenny<5" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
         <button ng-disabled="sim<10" ng-click="buyHouse(2)" type="button" class="btn btn-outline-primary">Buy {{sim/20>=1 ? sim/20 : 1 | round:'':'down'}}</button>
         <button ng-disabled="sim<10" ng-click="buyHouse(3)" type="button" class="btn btn-outline-primary">Buy {{sim/10>=1 ? sim/10 : 1 | round:'':'down'}}</button>
         <br />
