@@ -13,21 +13,22 @@
         <link rel="stylesheet" href="Styles/style.css"/>
     </head>
     <body ng-app="myApp">
-        <div id="container">
+        <div id="container" ng-controller="parentController">
             <div id="title-div">
                 Game Title
             </div>
             <div id="panel-tab">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#">House</a></li>
-                    <li><a href="#hamlet">Hamlet</a></li>
-                    <li><a href="#">Village</a></li>
-                    <li><a href="#">Town</a></li>
-                    <li><a href="#">City</a></li>
-                    <li><a href="#">Kingdom</a></li>
-                    <li><a href="#">Empire</a></li>
-                    <li><a href="#">Nation</a></li>
-                    <li><a href="#">Superpower Nation</a></li>
+                    <li ng-hide="phouse==0"><a href="#hamlet">Hamlet</a></li>
+                    <li ng-hide="phamlet==0"><a href="#">Village</a></li>
+                    <li ng-hide="pvillage==0"><a href="#">Town</a></li>
+                    <li ng-hide="ptown==0"><a href="#">City</a></li>
+                    <li ng-hide="pcity==0"><a href="#">Kingdom</a></li>
+                    <li ng-hide="pkingdom==0"><a href="#">Empire</a></li>
+                    <li ng-hide="pempire==0"><a href="#">Superpower Nation</a></li>
+                    <li ng-hide="pvillage==0"><a href="#">Army Management</a></li>
+                    <li><a href="#">Option</a></li>
                 </ul>
             </div>
             <div id="panel-container">

@@ -12,6 +12,10 @@ var colors = ["#B55E6A", "#E37F8D", "#F77B8C", "#BE9163",
             "#EFBB86", "#FFC07F", "#9C9FA7", "#7A808D", 
             "#5D6576", "#66A154", "#87CB71", "#8EE673"];
 
+var cc = ["#37488A", "#38719E", "#82C0AF", "#DAD4B9", "#D8B368"];
+
+var cc2 = ["#89A0B0", "#AEDBC4", "#FACEC5", "#F26E86", "#A5C2D2", "#4EC4D0"]
+
 var randomizer = 0;
 
 function fillCanvas(){
@@ -58,25 +62,16 @@ function draw(x, y, num, type) {
 
 
         var rand, color;
-        if(randomizer == 0){
-            console.log("new");
-            rand = Math.floor(Math.random() * 11);        
-        } else{
-            console.log("2nd or something");
-            
-            var xMax = (randomizer * 3) - 1;
-            var xMin = randomizer - 1;
-
-            rand = randomizer;
-            while(rand >= xMin && rand <= xMax){
-                rand = Math.floor(Math.random() * 11);        
-            }
+        rand = randomizer;
+        while(rand == randomizer){
+            rand = Math.floor(Math.random() * 6);     
         }
-        var color = colors[rand];
 
-        randomizer = Math.ceil((rand+1) / 3);
+        color = cc2[rand];
 
-        console.log(randomizer);
+        randomizer = rand;
+
+        // console.log(randomizer);
 
         if(num <= 9) {
             // Top first part of hex
@@ -317,7 +312,7 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
 
             UpdateModel: function(){
                 service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.017;
-                service.model.zenny += ((service.basePointsPerSecond.zenny * service.model.sim) * service.modifier.zenny) * 0.017;
+                service.model.zenny += ((service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny) * 0.017;
                 //console.log("tick");
             },
 
@@ -328,8 +323,14 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
                 service.UpdateModifier();         
             },
 
+            BuyFarm: function(num){
+                service.model.farm += num;
+                service.model.zenny -= num * 50;
+                service.UpdateModifier();         
+            },
+
             UpdateModifier: function(){
-                service.modifier.sim = 1 /* Base */ + (0.5 * service.model.house);
+                service.modifier.sim = 1 /* Base */ + (0.5 * service.model.house) + (service.model.house * (service.model.farm * 0.1));
             },
             
             GetSimRate: function(){
@@ -341,7 +342,7 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
             },
 
             GetZennyRate: function(){
-                return (service.basePointsPerSecond.zenny * service.model.sim) * service.modifier.zenny;
+                return (service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny;
                 
             },
 
@@ -356,7 +357,50 @@ app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
         $rootScope.$on("restorestate", service.RestoreState);
         return service;
     }]);
-    
+
+app.controller('parentController', function(userService, $scope, $interval) {
+    $scope.phouse = userService.model.house;        
+    $scope.phamlet = userService.model.hamlet;        
+    $scope.pvillage = userService.model.village;        
+    $scope.ptown = userService.model.town;        
+    $scope.pcity = userService.model.city;        
+    $scope.pkingdom = userService.model.kingdom;        
+    $scope.pempire = userService.model.empire;        
+    $scope.pspnation = userService.model.spnation;        
+    var parentInterval;
+
+    $scope.pageInterval = function(){
+        // Check if counter is running
+        if ( angular.isDefined(parentInterval) ) return;
+        // Turn on interval
+        parentInterval = $interval(function(){
+            // Save scopes var from service
+            $scope.phouse = userService.model.house;        
+            $scope.phamlet = userService.model.hamlet;        
+            $scope.pvillage = userService.model.village;        
+            $scope.ptown = userService.model.town;        
+            $scope.pcity = userService.model.city;        
+            $scope.pkingdom = userService.model.kingdom;        
+            $scope.pempire = userService.model.empire;        
+            $scope.pspnation = userService.model.spnation;      
+            
+            /*
+            $scope.phouse = 1;        
+            $scope.phamlet = 1;        
+            $scope.pvillage = 1;        
+            $scope.ptown = 1;        
+            $scope.pcity = 1;        
+            $scope.pkingdom = 1;        
+            $scope.pempire = 1;        
+            $scope.pspnation = 1;   
+            */
+
+        }, 17);//17ms interval is 60fps
+    };
+    $scope.pageInterval();
+});
+        
+
 app.controller('houseController', function(userService, ModelInterval, GridLocation, $scope, $interval, $location, $route) {
     // Scope for variables
     updatePageScope();
@@ -377,9 +421,10 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     // if the page's have the correct amount of triangles, then
     // start the page interval.
     $scope.$on('$routeChangeSuccess', function() {
-        $scope.sim = userService.model.sim;        
-        $scope.house = userService.model.house;        
+        // $scope.sim = userService.model.sim;        
+        // $scope.house = userService.model.house;        
         //fillCanvas();
+        updatePageScope();
         checkGrid();
         $scope.pageInterval();
     });
@@ -400,10 +445,14 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         $scope.birthRate = userService.GetBirthRate();
         $scope.simRate = userService.GetSimRate();
         $scope.zennyRate = userService.GetZennyRate();
-        
+
         if($route.current.originalPath == "/"){
             $scope.house = userService.model.house;        
+            $scope.haHouse = GetAvailable("house", "half");        
+            $scope.fHouse = GetAvailable("house", "full");        
             $scope.farm = userService.model.farm;        
+            $scope.haFarm = GetAvailable("farm", "half");        
+            $scope.fFarm = GetAvailable("farm", "full");        
         } else if($route.current.originalPath == "/hamlet"){
             $scope.hamlet = userService.model.hamlet;        
         }else if($route.current.originalPath == "/village"){
@@ -421,8 +470,48 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         }
     }
 
+    function GetAvailable(type, getter){
+        var ret = 0;
+        if(type == "house"){
+            if(getter == "half"){
+                ret = Math.floor($scope.sim / 20);
+            } else {
+                ret = Math.floor($scope.sim / 10);
+            }
+        } else if(type == "farm"){
+            if(getter == "half"){
+                ret = Math.floor($scope.zenny / 100);
+            } else {
+                ret = Math.floor($scope.zenny / 50);
+            }
+        }
+        
+        if(ret == 0){
+            return 1;
+        } else {
+            return ret;
+        }
+    };
+
+
     $scope.test = function(){
         return 1;
+    };
+
+    $scope.checkBuyHouse = function(num){
+        if($scope.zenny >= num * 5 && $scope.sim >= 10 * num){
+            return false;
+        } else{
+            return true;
+        }
+    };
+
+    $scope.checkBuyFarm = function(num){
+        if($scope.zenny >= num * 50){
+            return false;
+        } else{
+            return true;
+        }
     };
 
     // checkGrid function checks the current page triangles
@@ -498,22 +587,26 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         if(num == 1){
             userService.BuyHouse(1);            
         } else if(num == 2){
-            if($scope.sim/20 >= 1) {
-                userService.BuyHouse(Math.floor($scope.sim/20));            
-            } else{
-                userService.BuyHouse(Math.floor(1));
-            }
+            userService.BuyHouse($scope.haHouse);
         }else if(num == 3){
-            userService.BuyHouse(Math.floor($scope.sim/10));            
+            userService.BuyHouse($scope.fHouse);
         } else{
             // *1 to change iHouse to int
             userService.BuyHouse($scope.iHouse*1);            
         }
-        
     };
 
-    $scope.test2 = function(){
-        $scope.modelInterval = ModelInterval;
+    $scope.buyFarm = function(num){
+        if(num == 1){
+            userService.BuyFarm(1);            
+        } else if(num == 2){
+            userService.BuyFarm($scope.haFarm);            
+        }else if(num == 3){
+            userService.BuyFarm($scope.fFarm);            
+        } else{
+            // *1 to change iFarm to int
+            userService.BuyFarm($scope.iFarm*1);            
+        }
     };
 
     // stopPageInterval, like the name suggest, stops the page's
