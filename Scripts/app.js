@@ -14,7 +14,7 @@ var colors = ["#B55E6A", "#E37F8D", "#F77B8C", "#BE9163",
 
 var cc = ["#37488A", "#38719E", "#82C0AF", "#DAD4B9", "#D8B368"];
 
-var cc2 = ["#89A0B0", "#AEDBC4", "#FACEC5", "#F26E86", "#A5C2D2", "#4EC4D0"]
+var cc2 = ["#89A0B0", "#AEDBC4", "#FACEC5", "#F26E86", "#A5C2D2", "#4EC4D0"];
 
 var randomizer = 0;
 
@@ -491,7 +491,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         } else {
             return ret;
         }
-    };
+    }
 
 
     $scope.test = function(){
