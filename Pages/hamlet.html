@@ -1,14 +1,63 @@
 <div>    
     <div class="panel-side left-div">
-        <h1>Sim</h1>
-        <h2>{{sim}}</h2>
-        <h1>House</h1>
-        <h2>{{house}}</h2>
+        <h1>
+            Sim <span class="grey">+{{simRate | number : 2 }}/second</span>
+            <br />
+            {{sim | round:'':'down'}} 
+            <br />
+            <span class="add-info">
+                <span class="birth">Birth rate: {{birthRate | number : 2 }}</span>
+                <br />
+                <span class="death">Death rate: {{deathRate | number : 2 }}</span>
+            </span>
+        </h1>
+
+        <h1>Zenny <span class="grey">+{{zennyRate | number : 2}}/second</span>
+
+        </h1>
+        <h2>{{zenny | number : 2 }}</h2>
     </div>
     <canvas id="canvas" width=358 height=476>
         Your browser does not support the HTML5 canvas tag.
     </canvas>
     <div class="panel-side right-div">
-        right    
+        House ({{house}})
+        <br />
+        Cost {{houseSPrice | number : 2 }} Sim and {{houseZPrice | number : 2 }} Zenny.
+        <br />
+        Each house increase birth rate by 0.5 and decrease death rate by 1%.
+        <br /> 
+        <button ng-disabled="checkBuyHouse(1)" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+        <button ng-disabled="checkBuyHouse(haHouse)" ng-click="buyHouse(2)" type="button" class="btn btn-outline-primary">Buy {{haHouse}}</button>
+        <button ng-disabled="checkBuyHouse(fHouse)" ng-click="buyHouse(3)" type="button" class="btn btn-outline-primary">Buy {{fHouse}}</button>
+        <br />
+        <input ng-model="iHouse" ng-init="iHouse=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+        <button ng-disabled="checkBuyHouse(iHouse)" ng-click="buyHouse(4)" type="button" class="btn btn-outline-primary">Buy {{iHouse}}</button>        
+        <hr>
+        Farm ({{farm}})
+        <br />
+        Cost {{farmZPrice | number : 2 }} Zenny.
+        <br />
+        Each farm increase the birth rate for houses by 10% and sim cost for house by 10%.
+        <br />
+        <button ng-disabled="checkBuyFarm(1)" ng-click="buyFarm(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+        <button ng-disabled="checkBuyFarm(haFarm)" ng-click="buyFarm(2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
+        <button ng-disabled="checkBuyFarm(fFarm)" ng-click="buyFarm(3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
+        <br />
+        <input ng-model="iFarm" ng-init="iFarm=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+        <button ng-disabled="checkBuyFarm(iFarm)" ng-click="buyFarm(4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
+        <hr>
+        Barn ({{barn}})
+        <br />
+        Cost {{barnZPrice | number : 2}} Zenny.
+        <br />
+        Each barn increase the birth rate for each houses by 20% and increase death rate by 3%.
+        <br />
+        <button ng-disabled="checkBuyBarn(1)" ng-click="buyBarn(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+        <button ng-disabled="checkBuyBarn(haBarn)" ng-click="buyBarn(2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
+        <button ng-disabled="checkBuyBarn(fBarn)" ng-click="buyBarn(3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
+        <br />
+        <input ng-model="iBarn" ng-init="iBarn=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+        <button ng-disabled="checkBuyBarn(iBarn)" ng-click="buyBarn(4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
     </div>  
 </div>

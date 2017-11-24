@@ -1,32 +1,9 @@
-var red = "#EB9282", orange = "#EBC382", blue = "#5B779A", green = "#5FAC79";
-
-// http://paletton.com/#uid=75y0F0ke6tYejj-fqnUeGzPg2Gb
-// http://paletton.com/#uid=73n0o0k4Oqu0JK-2uvq7Gmgb4ik
-
-var red1 = "#B55E6A", red2 = "#E37F8D", red3 = "#F77B8C";
-var orange1 = "#BE9163", orange2 = "#EFBB86", orange3 = "#FFC07F";
-var blue1 = "#3F6A76", blue2 = "#558795", blue3 = "#63ACC0";
-var green1 = "#66A154", green2 = "#87CB71", green3 = "#8EE673";
-
-var colors = ["#B55E6A", "#E37F8D", "#F77B8C", "#BE9163",
-            "#EFBB86", "#FFC07F", "#9C9FA7", "#7A808D", 
-            "#5D6576", "#66A154", "#87CB71", "#8EE673"];
-
-var cc = ["#37488A", "#38719E", "#82C0AF", "#DAD4B9", "#D8B368"];
-
-var cc2 = ["#89A0B0", "#AEDBC4", "#FACEC5", "#F26E86", "#A5C2D2", "#4EC4D0"];
-
+// Colors store color code for hex
+var colors = ["#89A0B0", "#AEDBC4", "#FACEC5", "#F26E86", "#A5C2D2", "#4EC4D0"];
+// Randomizer store the color for each draw.
 var randomizer = 0;
 
-function fillCanvas(){
-    var canvas = document.getElementById('canvas');
-    if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-        // ctx.fillStyle = 'rbg(200,200,200)';
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);    
-    }
-}
-
+// ClearCanvas function use clearRect on the whole canvas.
 function clearCanvas(){
     var canvas = document.getElementById('canvas');
     if (canvas.getContext) {
@@ -67,7 +44,7 @@ function draw(x, y, num, type) {
             rand = Math.floor(Math.random() * 6);     
         }
 
-        color = cc2[rand];
+        color = colors[rand];
 
         randomizer = rand;
 
@@ -182,6 +159,34 @@ function drawTriangleInvert(ctx, side, x, y, type, color){
     ctx.closePath();
 }
 
+function changeActiveTab(route){
+    if(route == "/"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(1)").addClass( "active" );        
+    } else if(route == "/hamlet"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(2)").addClass( "active" );
+    }else if(route == "/village"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(3)").addClass( "active" );
+    }else if(route == "/town"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(4)").addClass( "active" );
+    }else if(route == "/city"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(5)").addClass( "active" );
+    }else if(route == "/kingdom"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(6)").addClass( "active" );
+    }else if(route == "/empire"){
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(7)").addClass( "active" );
+    }else {
+        $("#panel-tab>ul>li.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(9)").addClass( "active" );
+    }
+}
+
 var app = angular.module("myApp", ['ngRoute', 'ngResource']);
 // Service for the app main interval
 app.factory('ModelInterval', function ($interval, userService){
@@ -190,173 +195,6 @@ app.factory('ModelInterval', function ($interval, userService){
     }, 17);
     return interval;
 });
-
-// Grid location model
-app.factory('GridLocation', function(){
-    /*
-    var width = 56;
-    var height = 48;
-    What the offset algorithm should be, but it look better if it's hard coded
-    var xOffset = width * 0.75; // 45
-    var yOffset = height * 0.5; // 25
-    */
-    var xCenter = 10;
-    var yCenter = 10;
-
-    var xOffset = 46;
-    var yOffset = 25;
-    
-    var xOffsetCenter = 10;
-    var yOffsetcenter = 20;
-
-    var GridLocation = [
-        [(xOffset*3+xOffsetCenter),(yOffset*0+yOffsetcenter)],
-
-        [(xOffset*2+xOffsetCenter),(yOffset*1+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*2+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*1+yOffsetcenter)],
-        
-        [(xOffset*1+xOffsetCenter),(yOffset*2+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*3+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*4+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*3+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*2+yOffsetcenter)],
-                
-        [(xOffset*0+xOffsetCenter),(yOffset*3+yOffsetcenter)],
-        [(xOffset*1+xOffsetCenter),(yOffset*4+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*5+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*6+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*5+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*4+yOffsetcenter)],
-        [(xOffset*6+xOffsetCenter),(yOffset*3+yOffsetcenter)],
-
-        [(xOffset*0+xOffsetCenter),(yOffset*5+yOffsetcenter)],
-        [(xOffset*1+xOffsetCenter),(yOffset*6+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*7+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*8+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*7+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*6+yOffsetcenter)],
-        [(xOffset*6+xOffsetCenter),(yOffset*5+yOffsetcenter)],
-        
-        [(xOffset*0+xOffsetCenter),(yOffset*7+yOffsetcenter)],
-        [(xOffset*1+xOffsetCenter),(yOffset*8+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*9+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*10+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*9+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*8+yOffsetcenter)],
-        [(xOffset*6+xOffsetCenter),(yOffset*7+yOffsetcenter)],
-
-        [(xOffset*0+xOffsetCenter),(yOffset*9+yOffsetcenter)],
-        [(xOffset*1+xOffsetCenter),(yOffset*10+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*11+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*12+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*11+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*10+yOffsetcenter)],
-        [(xOffset*6+xOffsetCenter),(yOffset*9+yOffsetcenter)],
-
-        [(xOffset*0+xOffsetCenter),(yOffset*11+yOffsetcenter)],
-        [(xOffset*1+xOffsetCenter),(yOffset*12+yOffsetcenter)],
-        [(xOffset*2+xOffsetCenter),(yOffset*13+yOffsetcenter)],
-        [(xOffset*3+xOffsetCenter),(yOffset*14+yOffsetcenter)],
-        [(xOffset*4+xOffsetCenter),(yOffset*13+yOffsetcenter)],
-        [(xOffset*5+xOffsetCenter),(yOffset*12+yOffsetcenter)],
-        [(xOffset*6+xOffsetCenter),(yOffset*11+yOffsetcenter)]
-    ];
-    return GridLocation;
-});
-
-app.factory('userService', ['$rootScope', function ($rootScope, $interval) {
-        var service = {
-            // Store how much points user have
-            model: {
-                zenny: 0,
-                sim: 2,
-                house : 0,
-                farm: 0,
-                hamlet : 0,
-                village : 0,
-                town : 0,
-                city : 0,
-                kingdom : 0,
-                empire : 0,
-                spnation : 0
-            },
-    
-            // Store how much (base) points is added per second
-            basePointsPerSecond: {
-                zenny: 0.1,
-                sim: 1,
-                house : 0,
-                hamlet : 0,
-                village : 0,
-                town : 0,
-                city : 0,
-                kingdom : 0,
-                empire : 0,
-                spnation : 0
-            },
-
-            // Store modifier for points per second
-            modifier: {
-                zenny: 1,
-                sim: 1,
-                house : 1,
-                hamlet : 0,
-                village : 0,
-                town : 0,
-                city : 0,
-                kingdom : 0,
-                empire : 0,
-                spnation : 0
-            },
-
-            UpdateModel: function(){
-                service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.017;
-                service.model.zenny += ((service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny) * 0.017;
-                //console.log("tick");
-            },
-
-            BuyHouse: function(num){
-                service.model.house += num;
-                service.model.sim -= num * 10;  
-                service.model.zenny -= num * 5;
-                service.UpdateModifier();         
-            },
-
-            BuyFarm: function(num){
-                service.model.farm += num;
-                service.model.zenny -= num * 50;
-                service.UpdateModifier();         
-            },
-
-            UpdateModifier: function(){
-                service.modifier.sim = 1 /* Base */ + (0.5 * service.model.house) + (service.model.house * (service.model.farm * 0.1));
-            },
-            
-            GetSimRate: function(){
-                return (service.basePointsPerSecond.sim * service.modifier.sim) - 0 /* deat rate*/;
-            },
-
-            GetBirthRate: function(){
-                return (service.basePointsPerSecond.sim * service.modifier.sim);
-            },
-
-            GetZennyRate: function(){
-                return (service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny;
-                
-            },
-
-            SaveState: function () {
-                sessionStorage.userService = angular.toJson(service.model);
-            },
-            RestoreState: function () {
-                service.model = angular.fromJson(sessionStorage.userService);
-            }
-        };
-        $rootScope.$on("savestate", service.SaveState);
-        $rootScope.$on("restorestate", service.RestoreState);
-        return service;
-    }]);
 
 app.controller('parentController', function(userService, $scope, $interval) {
     $scope.phouse = userService.model.house;        
@@ -401,14 +239,12 @@ app.controller('parentController', function(userService, $scope, $interval) {
 });
         
 
-app.controller('houseController', function(userService, ModelInterval, GridLocation, $scope, $interval, $location, $route) {
+app.controller('mainController', function(userService, ModelInterval, GridLocation, buildingFactory, $scope, $interval, $location, $route) {
     // Scope for variables
     updatePageScope();
 
     // Scope for main interval service
     $scope.modelInterval = ModelInterval;    
-
-    $scope.testvar = 1;
 
     // Counter to store page's interval
     var counter;
@@ -422,8 +258,9 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     // start the page interval.
     $scope.$on('$routeChangeSuccess', function() {
         // $scope.sim = userService.model.sim;        
-        // $scope.house = userService.model.house;        
-        //fillCanvas();
+        // $scope.house = userService.model.house;   
+        console.log($route.current.originalPath);     
+        changeActiveTab($route.current.originalPath);
         updatePageScope();
         checkGrid();
         $scope.pageInterval();
@@ -443,16 +280,24 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
 
         // To be added. birth and death rate
         $scope.birthRate = userService.GetBirthRate();
+        $scope.deathRate = userService.GetDeathRate();
         $scope.simRate = userService.GetSimRate();
         $scope.zennyRate = userService.GetZennyRate();
 
         if($route.current.originalPath == "/"){
-            $scope.house = userService.model.house;        
+            $scope.house = userService.model.house;
+            $scope.houseSPrice = buildingFactory.house.simPrice;
+            $scope.houseZPrice = buildingFactory.house.zennyPrice;        
             $scope.haHouse = GetAvailable("house", "half");        
             $scope.fHouse = GetAvailable("house", "full");        
             $scope.farm = userService.model.farm;        
+            $scope.farmZPrice = buildingFactory.farm.zennyPrice;                    
             $scope.haFarm = GetAvailable("farm", "half");        
             $scope.fFarm = GetAvailable("farm", "full");        
+            $scope.barn = userService.model.barn;        
+            $scope.barnZPrice = buildingFactory.barn.zennyPrice;                    
+            $scope.haBarn = GetAvailable("barn", "half");        
+            $scope.fBarn = GetAvailable("barn", "full");        
         } else if($route.current.originalPath == "/hamlet"){
             $scope.hamlet = userService.model.hamlet;        
         }else if($route.current.originalPath == "/village"){
@@ -470,19 +315,38 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         }
     }
 
+    // GetAvailable function take 2 parameter, type for building type/name and 
+    // getter for full or half. The function will then return the amount that 
+    // the user can purchase.
     function GetAvailable(type, getter){
         var ret = 0;
         if(type == "house"){
             if(getter == "half"){
-                ret = Math.floor($scope.sim / 20);
+                ret = Math.floor($scope.sim / (buildingFactory.house.simPrice*2));
             } else {
-                ret = Math.floor($scope.sim / 10);
+                ret = Math.floor($scope.sim / buildingFactory.house.simPrice);
             }
         } else if(type == "farm"){
+            var money = $scope.zenny;
+            var price = buildingFactory.farm.zennyPrice;
+            while(money >= price){
+                ret++;
+                money -= price;                
+                price += buildingFactory.farm.baseZennyPrice;
+            }
             if(getter == "half"){
-                ret = Math.floor($scope.zenny / 100);
-            } else {
-                ret = Math.floor($scope.zenny / 50);
+                ret = Math.floor(ret/2);
+            }
+        } else if(type == "barn"){
+            var money = $scope.zenny;
+            var price = buildingFactory.barn.zennyPrice;
+            while(money >= price){
+                ret++;
+                money -= price;                
+                price += buildingFactory.barn.baseZennyPrice;
+            }
+            if(getter == "half"){
+                ret = Math.floor(ret/2);
             }
         }
         
@@ -493,13 +357,8 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         }
     }
 
-
-    $scope.test = function(){
-        return 1;
-    };
-
     $scope.checkBuyHouse = function(num){
-        if($scope.zenny >= num * 5 && $scope.sim >= 10 * num){
+        if($scope.zenny >= num * buildingFactory.house.zennyPrice && $scope.sim >= buildingFactory.house.simPrice * num){
             return false;
         } else{
             return true;
@@ -507,7 +366,15 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
     };
 
     $scope.checkBuyFarm = function(num){
-        if($scope.zenny >= num * 50){
+        if($scope.zenny >= num * buildingFactory.farm.zennyPrice){
+            return false;
+        } else{
+            return true;
+        }
+    };
+
+    $scope.checkBuyBarn = function(num){
+        if($scope.zenny >= num * buildingFactory.barn.zennyPrice){
             return false;
         } else{
             return true;
@@ -523,7 +390,7 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         }
         
         // Return if page is full
-        if(pageTriangles > 2900){
+        if(pageTriangles > 2902){
             return;
         }
 
@@ -609,6 +476,19 @@ app.controller('houseController', function(userService, ModelInterval, GridLocat
         }
     };
 
+    $scope.buyBarn = function(num){
+        if(num == 1){
+            userService.BuyBarn(1);            
+        } else if(num == 2){
+            userService.BuyBarn($scope.haBarn);            
+        }else if(num == 3){
+            userService.BuyBarn($scope.fBarn);            
+        } else{
+            // *1 to change iFarm to int
+            userService.BuyBarn($scope.iBarn*1);            
+        }
+    };
+
     // stopPageInterval, like the name suggest, stops the page's
     // interval and set the counter to undefined.
     function stopPageInterval(){
@@ -653,11 +533,11 @@ app.config(function($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
     $routeProvider
     .when("/", {
-        controller : 'houseController',
+        controller : 'mainController',
         templateUrl : 'Pages/house.html'
     })
     .when("/hamlet", {
-        controller : 'houseController',        
+        controller : 'mainController',        
         templateUrl : 'Pages/hamlet.html'
     });
 });

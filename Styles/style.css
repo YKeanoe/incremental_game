@@ -36,9 +36,12 @@ body{
 */
 
 .panel-side{
+    display:block;
     width:31.3%;
+    height:476px;
     float:left;
     padding: 10px 10px;
+    overflow-y: scroll;
 }
 
 h1{
@@ -64,4 +67,25 @@ h2{
 
 .add-info{
     font-size:14px;
+}
+
+.build-title{
+    font-size:14px;
+    margin-bottom: 8px;
+}
+.build-price{
+    font-size:12px;
+    margin-bottom: 8px;
+}
+.build-btns{
+    font-size:12px;
+    margin-bottom: 8px;
+}
+.build-info{
+    font-size:12px;
+    margin-bottom: 8px;
+}
+.build-input{
+    font-size:12px;
+    margin-bottom: 8px;
 }
