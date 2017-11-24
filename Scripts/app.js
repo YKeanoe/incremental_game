@@ -320,6 +320,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     // the user can purchase.
     function GetAvailable(type, getter){
         var ret = 0;
+        var money,price;
         if(type == "house"){
             if(getter == "half"){
                 ret = Math.floor($scope.sim / (buildingFactory.house.simPrice*2));
@@ -327,8 +328,8 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
                 ret = Math.floor($scope.sim / buildingFactory.house.simPrice);
             }
         } else if(type == "farm"){
-            var money = $scope.zenny;
-            var price = buildingFactory.farm.zennyPrice;
+            money = $scope.zenny;
+            price = buildingFactory.farm.zennyPrice;
             while(money >= price){
                 ret++;
                 money -= price;                
@@ -338,8 +339,8 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
                 ret = Math.floor(ret/2);
             }
         } else if(type == "barn"){
-            var money = $scope.zenny;
-            var price = buildingFactory.barn.zennyPrice;
+            money = $scope.zenny;
+            price = buildingFactory.barn.zennyPrice;
             while(money >= price){
                 ret++;
                 money -= price;                
