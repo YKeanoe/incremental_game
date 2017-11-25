@@ -336,16 +336,16 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         var z,s,b;
         if(type == "house"){
             if(getter == "half"){
-                z = Math.floor($scope.zenny / (buildingFactory.house.zennyPrice * 2))
-                s = Math.floor($scope.sim / (buildingFactory.house.simPrice * 2))
+                z = Math.floor($scope.zenny / (buildingFactory.house.zennyPrice * 2));
+                s = Math.floor($scope.sim / (buildingFactory.house.simPrice * 2));
                 if(z>=s){
                     ret = s;
                 } else{
                     ret = z;
                 }
             } else {
-                z = Math.floor($scope.zenny / buildingFactory.house.zennyPrice)
-                s = Math.floor($scope.sim / buildingFactory.house.simPrice)
+                z = Math.floor($scope.zenny / buildingFactory.house.zennyPrice);
+                s = Math.floor($scope.sim / buildingFactory.house.simPrice);
                 if(z>=s){
                     ret = s;
                 } else{
@@ -373,9 +373,9 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             }
         } else if(type == "hamlet"){
             if(getter == "half"){
-                z = Math.floor($scope.zenny / (buildingFactory.hamlet.zennyPrice * 2))
-                s = Math.floor($scope.sim / (buildingFactory.hamlet.simPrice * 2))
-                b = Math.floor($scope.house / (buildingFactory.hamlet.housePrice * 2))
+                z = Math.floor($scope.zenny / (buildingFactory.hamlet.zennyPrice * 2));
+                s = Math.floor($scope.sim / (buildingFactory.hamlet.simPrice * 2));
+                b = Math.floor($scope.house / (buildingFactory.hamlet.housePrice * 2));
                 if (z < s && z < b){
                     ret = z;
                 } else if (s < z && s < b){
@@ -384,9 +384,9 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
                     ret = b;
                 }
             } else {
-                z = Math.floor($scope.zenny / buildingFactory.hamlet.zennyPrice)
-                s = Math.floor($scope.sim / buildingFactory.hamlet.simPrice)
-                b = Math.floor($scope.house / buildingFactory.hamlet.housePrice)                
+                z = Math.floor($scope.zenny / buildingFactory.hamlet.zennyPrice);
+                s = Math.floor($scope.sim / buildingFactory.hamlet.simPrice);
+                b = Math.floor($scope.house / buildingFactory.hamlet.housePrice);                
                 if (z < s && z < b){
                     ret = z;
                 } else if (s < z && s < b){
@@ -424,7 +424,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         } else{
             return true;
         }
-    };
+    }
 
     function checkBuyFarm(num){
         if($scope.zenny >= num * buildingFactory.farm.zennyPrice){
@@ -432,7 +432,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         } else{
             return true;
         }
-    };
+    }
 
     function checkBuyBarn(num){
         if($scope.zenny >= num * buildingFactory.barn.zennyPrice){
@@ -440,7 +440,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         } else{
             return true;
         }
-    };
+    }
 
     function checkBuyHamlet(num){
         if($scope.zenny >= num * buildingFactory.hamlet.zennyPrice && $scope.house >= buildingFactory.hamlet.housePrice * num){
@@ -448,7 +448,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         } else{
             return true;
         }
-    };
+    }
 
     // checkGrid function checks the current page triangles
     // with the data. 
@@ -564,7 +564,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             // *1 to change iFarm to int
             userService.BuyFarm($scope.iFarm*1);            
         }
-    };
+    }
 
     function buyBarn(num){
         if(num == 1){
@@ -577,7 +577,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             // *1 to change iFarm to int
             userService.BuyBarn($scope.iBarn*1);            
         }
-    };
+    }
 
     function buyHamlet(num){
         if(num == 1){
@@ -590,7 +590,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             // *1 to change iFarm to int
             userService.BuyHamlet($scope.iHamlet*1);            
         }
-    };
+    }
 
     // stopPageInterval, like the name suggest, stops the page's
     // interval and set the counter to undefined.
