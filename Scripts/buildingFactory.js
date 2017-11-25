@@ -26,7 +26,11 @@ app.factory('buildingFactory', function(){
 
         hamlet: {
             housePrice : 10,
-            zennyPrice : 10
+            simPrice : 50,
+            zennyPrice : 500,
+            baseSimPrice : 50,
+            baseHousePrice : 10,
+            baseZennyPrice : 500
         }
     }
 

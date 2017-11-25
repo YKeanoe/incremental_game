@@ -275,17 +275,31 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     });
 
     function updatePageScope(){
+        // Get basic scopes
         $scope.zenny = userService.model.zenny;
         $scope.sim = userService.model.sim;
 
-        // To be added. birth and death rate
+        // Get building scopes
+        $scope.house = userService.model.house;
+        $scope.hamlet = userService.model.hamlet;        
+        $scope.village = userService.model.village;        
+        $scope.town = userService.model.town;        
+        $scope.city = userService.model.city;        
+        $scope.kingdom = userService.model.kingdom;        
+        $scope.empire = userService.model.empire;        
+        $scope.spnation = userService.model.spnation;        
+        
+        // Get rates
         $scope.birthRate = userService.GetBirthRate();
         $scope.deathRate = userService.GetDeathRate();
         $scope.simRate = userService.GetSimRate();
+        $scope.incomeRate = userService.GetIncomeRate();        
         $scope.zennyRate = userService.GetZennyRate();
+        $scope.houseRate = userService.GetHouseRate();
+        $scope.hamletRate = userService.GetHamletRate();
+
 
         if($route.current.originalPath == "/"){
-            $scope.house = userService.model.house;
             $scope.houseSPrice = buildingFactory.house.simPrice;
             $scope.houseZPrice = buildingFactory.house.zennyPrice;        
             $scope.haHouse = GetAvailable("house", "half");        
@@ -299,19 +313,17 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             $scope.haBarn = GetAvailable("barn", "half");        
             $scope.fBarn = GetAvailable("barn", "full");        
         } else if($route.current.originalPath == "/hamlet"){
-            $scope.hamlet = userService.model.hamlet;        
+            $scope.hamletHPrice = buildingFactory.hamlet.housePrice;
+            $scope.hamletZPrice = buildingFactory.hamlet.zennyPrice;        
+            $scope.hamletSPrice = buildingFactory.hamlet.simPrice;        
+            $scope.haHamlet = GetAvailable("hamlet", "half");        
+            $scope.fHamlet = GetAvailable("hamlet", "full");                    
         }else if($route.current.originalPath == "/village"){
-            $scope.village = userService.model.village;        
         }else if($route.current.originalPath == "/town"){
-            $scope.town = userService.model.town;        
         }else if($route.current.originalPath == "/city"){
-            $scope.city = userService.model.city;        
         }else if($route.current.originalPath == "/kingdom"){
-            $scope.kingdom = userService.model.kingdom;        
         }else if($route.current.originalPath == "/empire"){
-            $scope.empire = userService.model.empire;        
         }else {
-            $scope.spnation = userService.model.spnation;        
         }
     }
 
@@ -321,33 +333,67 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     function GetAvailable(type, getter){
         var ret = 0;
         var money,price;
+        var z,s,b;
         if(type == "house"){
             if(getter == "half"){
-                ret = Math.floor($scope.sim / (buildingFactory.house.simPrice*2));
+                z = Math.floor($scope.zenny / (buildingFactory.house.zennyPrice * 2))
+                s = Math.floor($scope.sim / (buildingFactory.house.simPrice * 2))
+                if(z>=s){
+                    ret = s;
+                } else{
+                    ret = z;
+                }
             } else {
-                ret = Math.floor($scope.sim / buildingFactory.house.simPrice);
+                z = Math.floor($scope.zenny / buildingFactory.house.zennyPrice)
+                s = Math.floor($scope.sim / buildingFactory.house.simPrice)
+                if(z>=s){
+                    ret = s;
+                } else{
+                    ret = z;
+                }           
             }
-        } else if(type == "farm"){
+        } else if(type == "farm" || type == "barn"){
             money = $scope.zenny;
-            price = buildingFactory.farm.zennyPrice;
+            if(type == "farm"){
+                price = buildingFactory.farm.zennyPrice;                
+            } else {
+                price = buildingFactory.barn.zennyPrice;
+            }
             while(money >= price){
                 ret++;
-                money -= price;                
-                price += buildingFactory.farm.baseZennyPrice;
+                money -= price;
+                if(type == "farm"){
+                    price += buildingFactory.farm.baseZennyPrice;
+                } else {
+                    price += buildingFactory.barn.baseZennyPrice;
+                }
             }
             if(getter == "half"){
                 ret = Math.floor(ret/2);
             }
-        } else if(type == "barn"){
-            money = $scope.zenny;
-            price = buildingFactory.barn.zennyPrice;
-            while(money >= price){
-                ret++;
-                money -= price;                
-                price += buildingFactory.barn.baseZennyPrice;
-            }
+        } else if(type == "hamlet"){
             if(getter == "half"){
-                ret = Math.floor(ret/2);
+                z = Math.floor($scope.zenny / (buildingFactory.hamlet.zennyPrice * 2))
+                s = Math.floor($scope.sim / (buildingFactory.hamlet.simPrice * 2))
+                b = Math.floor($scope.house / (buildingFactory.hamlet.housePrice * 2))
+                if (z < s && z < b){
+                    ret = z;
+                } else if (s < z && s < b){
+                    ret = s;
+                } else {
+                    ret = b;
+                }
+            } else {
+                z = Math.floor($scope.zenny / buildingFactory.hamlet.zennyPrice)
+                s = Math.floor($scope.sim / buildingFactory.hamlet.simPrice)
+                b = Math.floor($scope.house / buildingFactory.hamlet.housePrice)                
+                if (z < s && z < b){
+                    ret = z;
+                } else if (s < z && s < b){
+                    ret = s;
+                } else {
+                    ret = b;
+                }
             }
         }
         
@@ -358,7 +404,21 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }
     }
 
-    $scope.checkBuyHouse = function(num){
+    $scope.checkBuy = function(type, num){
+        if(type == "house"){
+            return checkBuyHouse(num);
+        } else if (type == "farm"){
+            return checkBuyFarm(num);
+        } else if (type == "barn"){
+            return checkBuyBarn(num);
+        } else if (type == "hamlet"){
+            return checkBuyHamlet(num);
+        } else{
+            return false;
+        }
+    };
+
+    function checkBuyHouse(num){
         if($scope.zenny >= num * buildingFactory.house.zennyPrice && $scope.sim >= buildingFactory.house.simPrice * num){
             return false;
         } else{
@@ -366,7 +426,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }
     };
 
-    $scope.checkBuyFarm = function(num){
+    function checkBuyFarm(num){
         if($scope.zenny >= num * buildingFactory.farm.zennyPrice){
             return false;
         } else{
@@ -374,8 +434,16 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }
     };
 
-    $scope.checkBuyBarn = function(num){
+    function checkBuyBarn(num){
         if($scope.zenny >= num * buildingFactory.barn.zennyPrice){
+            return false;
+        } else{
+            return true;
+        }
+    };
+
+    function checkBuyHamlet(num){
+        if($scope.zenny >= num * buildingFactory.hamlet.zennyPrice && $scope.house >= buildingFactory.hamlet.housePrice * num){
             return false;
         } else{
             return true;
@@ -385,13 +453,15 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     // checkGrid function checks the current page triangles
     // with the data. 
     function checkGrid(){
+        var maxTriangles = 2904;
+        
         // Return if nothing to draw.
         if(Math.floor($scope.sim) == 0 && pageTriangles == 0){
             return;
         }
         
         // Return if page is full
-        if(pageTriangles > 2902){
+        if(pageTriangles > maxTriangles){
             return;
         }
 
@@ -400,15 +470,20 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
 
         // Get the grid locations
         var loc = GridLocation;  
-        var grid, rownum;
-
+        var grid, rownum, limit;
         if(diff == 0){
             // If there's not difference, then return
             return;
         } else{
             if(diff > 0){
+                if(maxTriangles < Math.floor($scope.sim)){
+                    limit = maxTriangles;
+                } else {
+                    limit = Math.floor($scope.sim);
+                }
+
                 // If there are positive difference, add using loop
-                for(var i = pageTriangles; i<Math.floor($scope.sim); i++){
+                for(var i = pageTriangles; i<limit; i++){
                     grid = Math.floor(i / 66);            
                     rownum = i % 66;            
                     draw(loc[grid][0],loc[grid][1], rownum, 0);
@@ -451,7 +526,21 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }, 17);//17ms interval is 60fps
     };
 
-    $scope.buyHouse = function(num){
+    $scope.buy = function(type, num){
+        if(type == "house"){
+            return buyHouse(num);
+        } else if (type == "farm"){
+            return buyFarm(num);
+        } else if (type == "barn"){
+            return buyBarn(num);
+        } else if (type == "hamlet"){
+            return buyHamlet(num);
+        } else{
+            
+        }
+    };
+
+    function buyHouse(num){
         if(num == 1){
             userService.BuyHouse(1);            
         } else if(num == 2){
@@ -462,9 +551,9 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             // *1 to change iHouse to int
             userService.BuyHouse($scope.iHouse*1);            
         }
-    };
+    }
 
-    $scope.buyFarm = function(num){
+    function buyFarm(num){
         if(num == 1){
             userService.BuyFarm(1);            
         } else if(num == 2){
@@ -477,7 +566,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }
     };
 
-    $scope.buyBarn = function(num){
+    function buyBarn(num){
         if(num == 1){
             userService.BuyBarn(1);            
         } else if(num == 2){
@@ -487,6 +576,19 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         } else{
             // *1 to change iFarm to int
             userService.BuyBarn($scope.iBarn*1);            
+        }
+    };
+
+    function buyHamlet(num){
+        if(num == 1){
+            userService.BuyHamlet(1);            
+        } else if(num == 2){
+            userService.BuyHamlet($scope.haHamlet);            
+        }else if(num == 3){
+            userService.BuyHamlet($scope.fHamlet);            
+        } else{
+            // *1 to change iFarm to int
+            userService.BuyHamlet($scope.iHamlet*1);            
         }
     };
 

@@ -9,13 +9,39 @@
                 <span class="birth">Birth rate: {{birthRate | number : 2 }}</span>
                 <br />
                 <span class="death">Death rate: {{deathRate | number : 2 }}</span>
+                <br />
+                <span>Income rate: {{incomeRate | number : 2 }}/sim</span>
             </span>
         </h1>
 
-        <h1>Zenny <span class="grey">+{{zennyRate | number : 2}}/second</span>
-
+        <h1>
+            Zenny 
+            <span class="grey">+{{zennyRate | number : 2}}/second</span>
+            <br />
+            {{zenny | number : 2 }}
         </h1>
-        <h2>{{zenny | number : 2 }}</h2>
+
+        <h1 ng-hide="house==0">
+            House 
+            <span class="grey">+{{houseRate | number : 2}}/second</span>
+            <br />
+            {{house | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="hamlet==0">
+            Hamlet 
+            <span class="grey">+{{hamletRate | number : 2}}/second</span>
+            <br />
+            {{hamlet | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="village==0">
+            Village 
+            <span class="grey">+{{villageRate | number : 2}}/second</span>
+            <br />
+            {{village | number : 2 }}
+        </h1>
+
     </div>
     <canvas id="canvas" width=358 height=476>
         Your browser does not support the HTML5 canvas tag.
@@ -32,14 +58,14 @@
                 Each house increase birth rate by 0.5 and decrease death rate by 1%.
             </div>
             <div class="build-btns">
-                <button ng-disabled="checkBuyHouse(1)" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyHouse(haHouse)" ng-click="buyHouse(2)" type="button" class="btn btn-outline-primary">Buy {{haHouse}}</button>
-                <button ng-disabled="checkBuyHouse(fHouse)" ng-click="buyHouse(3)" type="button" class="btn btn-outline-primary">Buy {{fHouse}}</button>
+                <button ng-disabled="checkBuy('house', 1)" ng-click="buy('house', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('house', haHouse)" ng-click="buy('house', 2)" type="button" class="btn btn-outline-primary">Buy {{haHouse}}</button>
+                <button ng-disabled="checkBuy('house', fHouse)" ng-click="buy('house', 3)" type="button" class="btn btn-outline-primary">Buy {{fHouse}}</button>
             </div>
             <div class="build-input">
-            <input ng-model="iHouse" ng-init="iHouse=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-            <button ng-disabled="checkBuyHouse(iHouse)" ng-click="buyHouse(4)" type="button" class="btn btn-outline-primary">Buy {{iHouse}}</button>        
-            <hr>
+                <input ng-model="iHouse" ng-init="iHouse=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuy('house', iHouse)" ng-click="buy('house', 4)" type="button" class="btn btn-outline-primary">Buy {{iHouse}}</button>        
+                <hr>
             </div>
         </div>
         <div ng-hide="house==0">
@@ -53,13 +79,13 @@
                     Each farm increase the birth rate for houses by 10% and sim cost for house by 10%.
             </div>  
             <div class="build-btns">
-                <button ng-disabled="checkBuyFarm(1)" ng-click="buyFarm(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyFarm(haFarm)" ng-click="buyFarm(2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
-                <button ng-disabled="checkBuyFarm(fFarm)" ng-click="buyFarm(3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
+                <button ng-disabled="checkBuy('farm', 1)" ng-click="buy('farm', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('farm', haFarm)" ng-click="buy('farm', 2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
+                <button ng-disabled="checkBuy('farm', fFarm)" ng-click="buy('farm', 3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
             </div>
             <div class="build-input">                        
                 <input ng-model="iFarm" ng-init="iFarm=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-                <button ng-disabled="checkBuyFarm(iFarm)" ng-click="buyFarm(4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
+                <button ng-disabled="checkBuy('farm', iFarm)" ng-click="buy('farm', 4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
                 <hr>
             </div>
         </div>
@@ -74,13 +100,13 @@
                 Each barn increase the birth rate for each houses by 20% and increase death rate by 3%.
             </div>
             <div class="build-btns">                                            
-                <button ng-disabled="checkBuyBarn(1)" ng-click="buyBarn(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyBarn(haBarn)" ng-click="buyBarn(2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
-                <button ng-disabled="checkBuyBarn(fBarn)" ng-click="buyBarn(3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
+                <button ng-disabled="checkBuy('barn', 1)" ng-click="buy('barn', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('barn', haBarn)" ng-click="buy('barn', 2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
+                <button ng-disabled="checkBuy('barn', fBarn)" ng-click="buy('barn', 3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
             </div>
             <div class="build-input">                                            
                 <input ng-model="iBarn" ng-init="iBarn=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-                <button ng-disabled="checkBuyBarn(iBarn)" ng-click="buyBarn(4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
+                <button ng-disabled="checkBuy('barn', iBarn)" ng-click="buy('barn', 4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
             </div>
         </div>
     </div>  

@@ -86,15 +86,24 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             service.UpdateModifier();            
         },
 
+        BuyHamlet: function(num){
+            service.model.hamlet += num;
+            service.model.house -= num * buildingFactory.hamlet.housePrice;  
+            service.model.zenny -= num * buildingFactory.hamlet.zennyPrice;
+            service.UpdateModifier();
+        },
+
         UpdateModifier: function(){
             service.modifier.sim = 1 /* base */
                             + (0.5 * service.model.house) /* house modifier */
                             + (service.model.house * (service.model.farm * 0.1)) /* farm modifier */
-                            + (service.model.house * (service.model.barn * 0.2)); /* barn modifier */
-            
+                            + (service.model.house * (service.model.barn * 0.2)) /* barn modifier */
+                            + (10 * service.model.hamlet); /* hamlet modifier */
+                            
             service.modifier.death = 1 /* base */
                             - (0.01 * service.model.house) /* house modifier */
-                            + (0.03 * service.model.barn); /* barn modifier */
+                            + (0.03 * service.model.barn) /* barn modifier */
+                            + (0.05 * service.model.barn); /* hamlet modifier */
         },
         
         GetSimRate: function(){
@@ -111,7 +120,20 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
 
         GetZennyRate: function(){
             return (service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny;
-            
+        },
+        
+        GetIncomeRate: function(){
+            return service.basePointsPerSecond.zenny * service.modifier.zenny;
+        },
+        
+        GetHouseRate: function(){
+            // TODO
+            return 0;
+        },
+
+        GetHamletRate: function(){
+            // TODO
+            return 0;
         },
 
         SaveState: function () {

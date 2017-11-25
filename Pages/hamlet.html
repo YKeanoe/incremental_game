@@ -9,55 +9,105 @@
                 <span class="birth">Birth rate: {{birthRate | number : 2 }}</span>
                 <br />
                 <span class="death">Death rate: {{deathRate | number : 2 }}</span>
+                <br />
+                <span>Income rate: {{incomeRate | number : 2 }}/sim</span>
             </span>
         </h1>
 
-        <h1>Zenny <span class="grey">+{{zennyRate | number : 2}}/second</span>
-
+        <h1>
+            Zenny 
+            <span class="grey">+{{zennyRate | number : 2}}/second</span>
+            <br />
+            {{zenny | number : 2 }}
         </h1>
-        <h2>{{zenny | number : 2 }}</h2>
+
+        <h1 ng-hide="house==0">
+            House 
+            <span class="grey">+{{houseRate | number : 2}}/second</span>
+            <br />
+            {{house | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="hamlet==0">
+            Hamlet 
+            <span class="grey">+{{hamletRate | number : 2}}/second</span>
+            <br />
+            {{hamlet | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="village==0">
+            Village 
+            <span class="grey">+{{villageRate | number : 2}}/second</span>
+            <br />
+            {{village | number : 2 }}
+        </h1>
+
     </div>
     <canvas id="canvas" width=358 height=476>
         Your browser does not support the HTML5 canvas tag.
     </canvas>
     <div class="panel-side right-div">
-        House ({{house}})
-        <br />
-        Cost {{houseSPrice | number : 2 }} Sim and {{houseZPrice | number : 2 }} Zenny.
-        <br />
-        Each house increase birth rate by 0.5 and decrease death rate by 1%.
-        <br /> 
-        <button ng-disabled="checkBuyHouse(1)" ng-click="buyHouse(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-        <button ng-disabled="checkBuyHouse(haHouse)" ng-click="buyHouse(2)" type="button" class="btn btn-outline-primary">Buy {{haHouse}}</button>
-        <button ng-disabled="checkBuyHouse(fHouse)" ng-click="buyHouse(3)" type="button" class="btn btn-outline-primary">Buy {{fHouse}}</button>
-        <br />
-        <input ng-model="iHouse" ng-init="iHouse=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-        <button ng-disabled="checkBuyHouse(iHouse)" ng-click="buyHouse(4)" type="button" class="btn btn-outline-primary">Buy {{iHouse}}</button>        
-        <hr>
-        Farm ({{farm}})
-        <br />
-        Cost {{farmZPrice | number : 2 }} Zenny.
-        <br />
-        Each farm increase the birth rate for houses by 10% and sim cost for house by 10%.
-        <br />
-        <button ng-disabled="checkBuyFarm(1)" ng-click="buyFarm(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-        <button ng-disabled="checkBuyFarm(haFarm)" ng-click="buyFarm(2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
-        <button ng-disabled="checkBuyFarm(fFarm)" ng-click="buyFarm(3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
-        <br />
-        <input ng-model="iFarm" ng-init="iFarm=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-        <button ng-disabled="checkBuyFarm(iFarm)" ng-click="buyFarm(4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
-        <hr>
-        Barn ({{barn}})
-        <br />
-        Cost {{barnZPrice | number : 2}} Zenny.
-        <br />
-        Each barn increase the birth rate for each houses by 20% and increase death rate by 3%.
-        <br />
-        <button ng-disabled="checkBuyBarn(1)" ng-click="buyBarn(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-        <button ng-disabled="checkBuyBarn(haBarn)" ng-click="buyBarn(2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
-        <button ng-disabled="checkBuyBarn(fBarn)" ng-click="buyBarn(3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
-        <br />
-        <input ng-model="iBarn" ng-init="iBarn=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-        <button ng-disabled="checkBuyBarn(iBarn)" ng-click="buyBarn(4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
+        <div>
+            <div class="build-title">                        
+                <b>Hamlet ({{hamlet}})</b>
+            </div>
+            <div class="build-price">                    
+                Cost {{hamletHPrice | number : 0 }} House, {{hamletZPrice | number : 2 }} Zenny, and {{hamletSPrice}} Sim.
+            </div>
+            <div class="build-info">
+                Each hamlet increase birth rate by 10 and increase death rate by 5%.
+            </div>
+            <div class="build-btns">
+                <button ng-disabled="checkBuyHamlet(1)" ng-click="buyHamlet(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuyHamlet(haHamlet)" ng-click="buyHamlet(2)" type="button" class="btn btn-outline-primary">Buy {{haHamlet}}</button>
+                <button ng-disabled="checkBuyHamlet(fHamlet)" ng-click="buyHamlet(3)" type="button" class="btn btn-outline-primary">Buy {{fHamlet}}</button>
+            </div>
+            <div class="build-input">
+                <input ng-model="iHamlet" ng-init="iHamlet=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuyHamlet(iHamlet)" ng-click="buyHamlet(4)" type="button" class="btn btn-outline-primary">Buy {{iHamlet}}</button>        
+                <hr>
+            </div>
+        </div>
+        <div ng-hide="hamlet==0">
+            <div class="build-title">                        
+                <b>Church ({{church}})</b>
+            </div>
+            <div class="build-price">
+                Cost {{farmZPrice | number : 2 }} Zenny.
+            </div>
+            <div class="build-info">                        
+                    Each church increase the income for each sim by 0.1 and decrease birth rate for each hamlet by 20%.
+            </div>  
+            <div class="build-btns">
+                <button ng-disabled="checkBuyFarm(1)" ng-click="buyFarm(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuyFarm(haFarm)" ng-click="buyFarm(2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
+                <button ng-disabled="checkBuyFarm(fFarm)" ng-click="buyFarm(3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
+            </div>
+            <div class="build-input">                        
+                <input ng-model="iFarm" ng-init="iFarm=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuyFarm(iFarm)" ng-click="buyFarm(4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
+                <hr>
+            </div>
+        </div>
+        <div ng-hide="church==0">
+            <div class="build-title">
+                <b>Mill ({{mill}})</b>
+            </div>
+            <div class="build-price">
+                Cost {{barnZPrice | number : 2}} Zenny.
+            </div>
+            <div class="build-info">
+                Each mill incrase birth rate for each hamlet by 10%.
+            </div>
+            <div class="build-btns">                                            
+                <button ng-disabled="checkBuyBarn(1)" ng-click="buyBarn(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuyBarn(haBarn)" ng-click="buyBarn(2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
+                <button ng-disabled="checkBuyBarn(fBarn)" ng-click="buyBarn(3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
+            </div>
+            <div class="build-input">                                            
+                <input ng-model="iBarn" ng-init="iBarn=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuyBarn(iBarn)" ng-click="buyBarn(4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
+            </div>
+        </div>
     </div>  
 </div>
