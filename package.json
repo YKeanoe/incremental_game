@@ -7,6 +7,6 @@
       "jasmine-node": "latest"      
     },
     "scripts": {
-      "test": "./node_modules/jasmine-node Scripts/test.spec.js"      
+      "test": "jasmine-node Scripts/test.spec.js"      
     }
 }
