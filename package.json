@@ -1,12 +1,18 @@
 {
-    "name": "Incremental_Game",
-    "author": "Yohanes Keanoe",
-    "version": "0.0.1",
-    "devDependencies": {
-      "jshint": "^2.6.0",
-      "jasmine-node": "latest"      
-    },
-    "scripts": {
-      "test": "jasmine-node Scripts/test.spec.js"      
-    }
+  "name": "Incremental_Game",
+  "author": "Yohanes Keanoe",
+  "version": "0.0.1",
+  "devDependencies": {
+    "jasmine": "^2.8.0",
+    "jasmine-node": "latest",
+    "jshint": "^2.6.0",
+    "angular": "^1.6.6",
+    "angular-mocks": "^1.6.6",
+    "angular-route": "^1.6.6",    
+    "angular-resources": "^1.6.6"
+  },
+  "scripts": {
+    "test": "jasmine-node Scripts/test.spec.js"
+  },
+  "dependencies": {}
 }
