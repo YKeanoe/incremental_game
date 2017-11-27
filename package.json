@@ -7,7 +7,6 @@
       "jasmine-node": "latest"      
     },
     "scripts": {
-      "mainAppSyntaxCheck": "./node_modules/jshint/bin/jshint Scripts/app.js",
-      "mainAppUnitTest": "jasmine-node Scripts/test.js"      
+      "test": "./node_modules/jshint/bin/jshint Scripts/app.js ./node_modules/jasmine-node Scripts/test.js"      
     }
 }
