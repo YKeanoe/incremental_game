@@ -1,0 +1,98 @@
+describe('calculator', function () {
+    
+    var $controller, $rootScope, $interval, $location, $route, $scope;
+    var ModelInterval, GridLocation, buildingFactory;
+
+    beforeEach(function(){
+        module('myApp');
+        inject(function(_$controller_, _$rootScope_, _$interval_, _$location_, _$route_,
+                _userService_, _ModelInterval_, _GridLocation_, _buildingFactory_){
+
+            $scope = $rootScope.new();
+
+            userService = _userService_;
+            ModelInterval = _ModelInterval_;
+            GridLocation = _GridLocation_;
+            buildingFactory = _buildingFactory_;
+
+            $controller = _$controller_('mainController', { 
+                $scope: $scope,
+                $interval: _$interval_,
+                $location: _$location_,
+                $route: _$route_,
+                userService: userService,
+                ModelInterval: ModelInterval,
+                GridLocation: GridLocation,
+                buildingFactory: buildingFactory
+            });                
+        });
+    });        
+
+// app.controller('mainController', function(userService, ModelInterval, GridLocation
+// , buildingFactory, $scope, $interval, $location, $route) {
+        
+
+    it('test1', function() {
+      
+        // the assertion checks the expected result
+        expect($scope.testVar).toBe(0);
+        // expect(2).toBe(2);
+    });
+
+});
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+describe('calculator', function () {
+    
+    var $controller, $rootScope, $scope;
+    var tFactory, t2Factory;
+    var controller;
+    // var tFactory, t2Factory;
+
+    beforeEach(function(){
+        module('tApp');
+        inject(function(_$controller_, _$rootScope_, $injector){
+            $controller = _$controller_;
+            $rootScope = _$rootScope_;
+            tFactory = $injector.get('tFactory');
+            t2Factory = $injector.get('t2Factory');
+        });
+
+        $scope = $rootScope.$new();
+        
+        controller = $controller('tController', { $scope: $scope, tFactory: tFactory, t2Factory: t2Factory });
+
+    });        
+
+    it('test1', function() {
+        expect($scope.a).toBe(1);
+    });
+
+    it('test2', function() {
+        expect($scope.b).toBe(1);
+    });
+
+    it('test3', function() {
+        expect($scope.sum()).toBe(2);
+    });
+
+    it('test4', function() {
+        expect($scope.d).toBe(20);
+    });
+    
+    it('test5', function() {
+        expect($scope.tf()).toBe(20);
+    });
+
+    it('test6', function() {
+        expect($scope.tf2()).toBe(33);
+    });
+    
+});

@@ -161,29 +161,29 @@ function drawTriangleInvert(ctx, side, x, y, type, color){
 
 function changeActiveTab(route){
     if(route == "/"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(1)").addClass( "active" );        
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(1)>a").addClass( "active" );        
     } else if(route == "/hamlet"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(2)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(2)>a").addClass( "active" );
     }else if(route == "/village"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(3)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(3)>a").addClass( "active" );
     }else if(route == "/town"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(4)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(4)>a").addClass( "active" );
     }else if(route == "/city"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(5)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(5)>a").addClass( "active" );
     }else if(route == "/kingdom"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(6)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(6)>a").addClass( "active" );
     }else if(route == "/empire"){
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(7)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(7)>a").addClass( "active" );
     }else {
-        $("#panel-tab>ul>li.active").removeClass("active");
-        $("#panel-tab>ul>li:nth-of-type(9)").addClass( "active" );
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li>a:nth-of-type(9)>a").addClass( "active" );
     }
 }
 
@@ -253,6 +253,8 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     // Store when the page stopped
     var stopTimer = 0;
 
+    $scope.testVar = 0;
+
     // Set on route change to fill the black canvas and check
     // if the page's have the correct amount of triangles, then
     // start the page interval.
@@ -297,7 +299,6 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         $scope.zennyRate = userService.GetZennyRate();
         $scope.houseRate = userService.GetHouseRate();
         $scope.hamletRate = userService.GetHamletRate();
-
 
         if($route.current.originalPath == "/"){
             $scope.houseSPrice = buildingFactory.house.simPrice;

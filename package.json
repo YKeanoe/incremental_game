@@ -3,9 +3,11 @@
     "author": "Yohanes Keanoe",
     "version": "0.0.1",
     "devDependencies": {
-      "jshint": "^2.6.0"
+      "jshint": "^2.6.0",
+      "jasmine-node": "latest"      
     },
     "scripts": {
-      "test": "./node_modules/jshint/bin/jshint Scripts/app.js"
+      "mainAppSyntaxCheck": "./node_modules/jshint/bin/jshint Scripts/app.js",
+      "mainAppUnitTest": "jasmine-node Scripts/test.js"      
     }
 }

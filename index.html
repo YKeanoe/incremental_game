@@ -2,22 +2,22 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <script src="Vendors/jquery/jquery-3.2.1.min.js"></script>        
+        <script src="/Vendors/jquery/jquery-3.2.1.min.js"></script>        
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
         
-        <script src="Vendors/bootstrap-4.0.0/js/bootstrap.min.js"></script>        
+        <script src="/Vendors/bootstrap-4.0.0/js/bootstrap.min.js"></script>        
        
         
-        <script src="Vendors/angularjs-1.6.6/angular.min.js"></script>        
-        <script src="Vendors/angularjs-1.6.6/angular-route.min.js"></script>        
-        <script src="Vendors/angularjs-1.6.6/angular-resource.min.js"></script>        
+        <script src="/Vendors/angularjs-1.6.6/angular.min.js"></script>        
+        <script src="/Vendors/angularjs-1.6.6/angular-route.min.js"></script>        
+        <script src="/Vendors/angularjs-1.6.6/angular-resource.min.js"></script>        
         
-        <script src="Vendors/ifvisible.js/ifvisible.min.js"></script>
-        <script src="Scripts/app.js"></script>        
-        <script src="Scripts/userService.js"></script>        
-        <script src="Scripts/GridLocation.js"></script>        
-        <script src="Scripts/buildingFactory.js"></script>        
+        <script src="/Vendors/ifvisible.js/ifvisible.min.js"></script>
+        <script src="/Scripts/app.js"></script>        
+        <script src="/Scripts/userService.js"></script>        
+        <script src="/Scripts/GridLocation.js"></script>        
+        <script src="/Scripts/buildingFactory.js"></script>        
       
         <link rel="stylesheet" href="Vendors/bootstrap-4.0.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="Styles/style.css"/>
@@ -30,16 +30,36 @@
             </div>
             <div id="panel-tab">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#">House</a></li>
-                    <li ng-hide="phouse==0"><a href="#hamlet">Hamlet</a></li>
-                    <li ng-hide="phamlet==0"><a href="#">Village</a></li>
-                    <li ng-hide="pvillage==0"><a href="#">Town</a></li>
-                    <li ng-hide="ptown==0"><a href="#">City</a></li>
-                    <li ng-hide="pcity==0"><a href="#">Kingdom</a></li>
-                    <li ng-hide="pkingdom==0"><a href="#">Empire</a></li>
-                    <li ng-hide="pempire==0"><a href="#">Superpower Nation</a></li>
-                    <li ng-hide="pvillage==0"><a href="#">Army Management</a></li>
-                    <li><a href="#">Option</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">House</a>
+                    </li>
+                    <li class="nav-item" ng-hide="phouse==0">
+                        <a class="nav-link" href="#hamlet">Hamlet</a>
+                    </li>
+                    <li class="nav-item" ng-hide="phamlet==0">
+                        <a class="nav-link" href="#">Village</a>
+                    </li>
+                    <li class="nav-item" ng-hide="pvillage==0">
+                        <a class="nav-link" href="#">Town</a>
+                    </li>
+                    <li class="nav-item" ng-hide="ptown==0">
+                        <a class="nav-link" href="#">City</a>
+                    </li>
+                    <li class="nav-item" ng-hide="pcity==0">
+                        <a class="nav-link" href="#">Kingdom</a>
+                    </li>
+                    <li class="nav-item" ng-hide="pkingdom==0">
+                        <a class="nav-link" href="#">Empire</a>
+                    </li>
+                    <li class="nav-item" ng-hide="pempire==0">
+                        <a class="nav-link" href="#">Superpower Nation</a>
+                    </li>
+                    <li class="nav-item" ng-hide="pvillage==0">
+                        <a class="nav-link" href="#">Army Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Option</a>
+                    </li>
                 </ul>
             </div>
             <div id="panel-container">
