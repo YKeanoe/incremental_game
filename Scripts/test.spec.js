@@ -1,5 +1,5 @@
 // require('/Vendors/jquery/jquery-3.2.1.min.js');
-var angular = require('angular');
+var angular = require('/Vendors/angularjs-1.6.6/angular');
 // require('/Vendors/angularjs-1.6.6/angular-route.min.js');
 // require('/Vendors/angularjs-1.6.6/angular-resource.min.js');
 // require('/Vendors/angularjs-1.6.6/angular-mocks.js');
