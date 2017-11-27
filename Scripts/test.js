@@ -1,7 +1,7 @@
 describe('Main Controller Test', function () {
     
     var $controller, $rootScope, $scope, $interval, $route, $location;
-    var userService, ModelInterval, GridLocation, buildingFactory
+    var userService, ModelInterval, GridLocation, buildingFactory;
     var controller;
 
     beforeEach(function(){
