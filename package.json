@@ -7,6 +7,6 @@
       "jasmine-node": "latest"      
     },
     "scripts": {
-      "test": "./node_modules/jshint/bin/jshint Scripts/app.js | jasmine-node Scripts/test.js"      
+      "test": "jasmine-node Scripts/test.js"      
     }
 }
