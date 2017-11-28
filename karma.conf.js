@@ -3,9 +3,10 @@ module.exports = function(config) {
         basePath: '',
         frameworks: ['jasmine'],
         files: [
-            'Vendors/jquery/*.js',            
-            'Vendors/angularjs-1.6.6/*.js',
-            'Vendors/bootstrap-4.0.0/js/*.js',
+            'Vendors/angularjs-1.6.6/angular.js',
+            'Vendors/angularjs-1.6.6/angular-route.js',
+            'Vendors/angularjs-1.6.6/angular-resource.js',
+            'Vendors/angularjs-1.6.6/angular-mocks.js',
             'Vendors/ifvisible.js/*.js',
             'src/*.js',
             'spec/*.spec.js'
