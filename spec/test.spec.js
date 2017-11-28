@@ -53,7 +53,7 @@ describe('Main Controller Test', function () {
     });
 
     it('test1Fail', function() {    
-        expect($scope.testVar).toBe(1);
+        expect($scope.testVar).toBe(0);
     });
     
 });
