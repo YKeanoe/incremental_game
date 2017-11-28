@@ -9,6 +9,10 @@ module.exports = function(config) {
         exclude: [
         ],
         preprocessors: {},
+        plugins: [
+            'karma-jasmine',
+            'phantomjs'
+        ],
         reporters: ['dots'],
         port: 9876,
         colors: true,
