@@ -261,7 +261,6 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     $scope.$on('$routeChangeSuccess', function() {
         // $scope.sim = userService.model.sim;        
         // $scope.house = userService.model.house;   
-        console.log($route.current.originalPath);     
         changeActiveTab($route.current.originalPath);
         updatePageScope();
         checkGrid();
