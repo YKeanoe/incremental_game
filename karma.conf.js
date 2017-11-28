@@ -19,6 +19,7 @@ module.exports = function(config) {
             './spec/*.spec.js': ['jshint']
         },
         plugins: [
+            'karma-jshint-preprocessor',
             'karma-jasmine',
             'karma-phantomjs-launcher'
         ],
