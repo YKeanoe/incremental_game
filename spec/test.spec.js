@@ -17,7 +17,7 @@ describe('Main Controller Test', function () {
 
     beforeEach(function(){
         // Load Module
-        angular.module('myApp');
+        module('myApp');
 
         // Inject services and dependencies
         inject(function(_$controller_, _$rootScope_, $injector, _$interval_, _$location_, _$route_){
