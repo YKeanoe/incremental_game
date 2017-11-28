@@ -1,5 +1,5 @@
 // require('/Vendors/jquery/jquery-3.2.1.min.js');
-var angular = require('../Vendors/angularjs-1.6.6/angular.min');
+// var angular = require('../Vendors/angularjs-1.6.6/angular.min');
 // var page = require('../Pages/qunit.html')
 // require('/Vendors/angularjs-1.6.6/angular-route.min.js');
 // require('/Vendors/angularjs-1.6.6/angular-resource.min.js');
