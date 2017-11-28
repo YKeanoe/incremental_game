@@ -6,14 +6,10 @@
     "homepage": "https://github.com/ZankiMaru/incremental_game#readme",    
     "dependencies": {},    
     "devDependencies": {
-        "angular": "^1.6.6",
-        "angular-mocks": "^1.6.6",
-        "angular-resources": "^1.6.6",
-        "angular-route": "^1.6.6",
+        "jshint": "^2.6.0",
         "jasmine": "^2.8.0"
     },
     "scripts": {
-        "test-init": "./node_modules/jasmine/bin/jasmine.js init",
         "test": "./node_modules/jasmine/bin/jasmine.js"
     },
     "repository": {
