@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "0.10"
+  - "node"
 before_install:
-  - npm install phantomjs --save-dev
   - npm install angular --save-dev
   - npm install karma --save-dev
   - npm install karma-jasmine --save-dev
+  - npm install karma-phantomjs-launcher --save-dev
