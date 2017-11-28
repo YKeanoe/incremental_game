@@ -11,7 +11,7 @@ module.exports = function(config) {
         preprocessors: {},
         plugins: [
             'karma-jasmine',
-            'phantomjs'
+            'karma-phantomjs-launcher'
         ],
         reporters: ['dots'],
         port: 9876,
