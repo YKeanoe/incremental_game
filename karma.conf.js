@@ -8,6 +8,7 @@ module.exports = function(config) {
             'Vendors/angularjs-1.6.6/angular-resource.js',
             'Vendors/angularjs-1.6.6/angular-mocks.js',
             'Vendors/ifvisible.js/*.js',
+            'src/app.js',
             'src/*.js',
             'spec/*.spec.js'
         ],
