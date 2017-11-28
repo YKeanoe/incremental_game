@@ -3,5 +3,5 @@ node_js:
   - "0.10"
 before_install:
   - npm install angular --save-dev
-  - npm install phantomjs-prebuilt --save-dev
+  - npm install phantomjs --save-dev
   - npm install karma --save-dev
