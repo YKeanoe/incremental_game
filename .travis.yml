@@ -1,10 +1,12 @@
 language: node_js
 node_js:
-  - "node"
+  - "0.10"
 before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
-  - npm install -g grunt-cli
 
-install:
+before_script:
   - npm install
+
+script:
+  - node_modules/karma/bin/karma start my.conf.js --single-run
