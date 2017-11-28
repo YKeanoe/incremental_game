@@ -4,4 +4,4 @@ node_js:
 before_install:
   - npm install angular --save-dev
   - npm install phantomjs-prebuilt --save-dev
-  - npm install phantom-jasmine --save-dev
+  - npm install karma --save-dev
