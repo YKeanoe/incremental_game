@@ -10,7 +10,7 @@
         "jasmine": "^2.8.0"
     },
     "scripts": {
-        "test": "./node_modules/jasmine/bin/jasmine.js"
+        "test": "./node_modules/phantom-jasmine/bin/phantom-jasmine ./spec/test.spec.js"
     },
     "repository": {
         "type": "git",
