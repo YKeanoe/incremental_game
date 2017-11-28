@@ -1,7 +1,10 @@
 language: node_js
 node_js:
   - "node"
-before_script:
-    - "npm i -g jasmine-node"
-    - "npm install -g angular"
-    - "npm install -g requirejs"
+before_install:
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - npm install -g grunt-cli
+
+install:
+  - npm install
