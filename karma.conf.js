@@ -14,7 +14,10 @@ module.exports = function(config) {
         ],
         exclude: [
         ],
-        preprocessors: {},
+        preprocessors: {
+            './src/*.js': ['jshint'],
+            './spec/*.spec.js': ['jshint']
+        },
         plugins: [
             'karma-jasmine',
             'karma-phantomjs-launcher'
