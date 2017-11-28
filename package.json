@@ -1,21 +1,21 @@
 {
-  "name": "Incremental_Game",
-  "author": "Yohanes Keanoe",
-  "version": "0.0.1",
-  "devDependencies": {
-    "angular": "^1.6.6",
-    "angular-mocks": "^1.6.6",
-    "angular-resources": "^1.6.6",
-    "angular-route": "^1.6.6",
-    "jasmine": "^2.8.0",
-    "jasmine-node": "latest",
-    "jshint": "^2.6.0",
-    "karma": "^1.7.1",
-    "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.4"
-  },
-  "scripts": {
-    "test": "grunt test"
-  },
-  "dependencies": {}
+    "name": "Incremental_Game",
+    "author": "Yohanes Keanoe",
+    "version": "0.0.1",
+    "devDependencies": {
+        "angular": "^1.6.6",
+        "angular-mocks": "^1.6.6",
+        "angular-resources": "^1.6.6",
+        "angular-route": "^1.6.6",
+        "jasmine-core": "*",
+        "karma": "*",
+        "karma-cli": "*",
+        "karma-jasmine": "*",
+        "karma-phantomjs-launcher": "*",
+        "karma-chrome-launcher": "*"    
+    },
+    "scripts": {
+        "test": "karma start karma.conf.js --single-run"
+    },
+    "dependencies": {}
 }
