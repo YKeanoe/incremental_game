@@ -53,7 +53,7 @@ function draw(x, y, num, type) {
         if(num <= 9) {
             // Top first part of hex
             rowX += ( rowNum * triangleHalfSideLength ) + offset1;
-            if(num % 2 == 0) {
+            if(num % 2 === 0) {
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
             } else {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
@@ -63,7 +63,7 @@ function draw(x, y, num, type) {
             rowX += ((rowNum - 9) * triangleHalfSideLength) + offset2; 
             rowY += triangleSideLength;
 
-            if(num % 2 != 0) {
+            if(num % 2 !== 0) {
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
             } else {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
@@ -74,7 +74,7 @@ function draw(x, y, num, type) {
             rowY += triangleSideLength * 2;
 
 
-            if(num % 2 == 0) { 
+            if(num % 2 === 0) { 
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
             } else {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
@@ -85,7 +85,7 @@ function draw(x, y, num, type) {
             rowY += triangleSideLength * 3;
 
 
-            if(num %2 != 0) {
+            if(num %2 !== 0) {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
             } else {
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
@@ -96,7 +96,7 @@ function draw(x, y, num, type) {
             rowY += triangleSideLength * 4;
 
 
-            if(num % 2 == 0) {
+            if(num % 2 === 0) {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
             } else{
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
@@ -107,7 +107,7 @@ function draw(x, y, num, type) {
             rowY += triangleSideLength * 5;
 
             
-            if(num %2 != 0) {
+            if(num %2 !== 0) {
                 drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
             } else {
                 drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color); 
@@ -118,7 +118,7 @@ function draw(x, y, num, type) {
 
 // function to draw /\ triangle,
 function drawTriangle(ctx, side, x, y, type, color){
-    if(type==0){
+    if(type===0){
         ctx.globalCompositeOperation='source-over';
     } else{        
         ctx.globalCompositeOperation='destination-out';
@@ -139,7 +139,7 @@ function drawTriangle(ctx, side, x, y, type, color){
 
 // function to draw \/ triangle
 function drawTriangleInvert(ctx, side, x, y, type, color){
-    if(type==0){
+    if(type===0){
         ctx.globalCompositeOperation='source-over';
     } else{        
         ctx.globalCompositeOperation='destination-out';
@@ -397,7 +397,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             }
         }
         
-        if(ret == 0){
+        if(ret === 0){
             return 1;
         } else {
             return ret;
@@ -456,7 +456,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         var maxTriangles = 2904;
         
         // Return if nothing to draw.
-        if(Math.floor($scope.sim) == 0 && pageTriangles == 0){
+        if(Math.floor($scope.sim) === 0 && pageTriangles === 0){
             return;
         }
         
@@ -471,7 +471,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         // Get the grid locations
         var loc = GridLocation;  
         var grid, rownum, limit;
-        if(diff == 0){
+        if(diff === 0){
             // If there's not difference, then return
             return;
         } else{
@@ -518,7 +518,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             updatePageScope();
             
             // return if var is 0 (nothing to draw)     
-            if($scope.sim == 0){
+            if($scope.sim === 0){
                 return;
             } else{
                 checkGrid();            

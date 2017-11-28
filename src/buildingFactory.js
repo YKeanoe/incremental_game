@@ -32,7 +32,7 @@ app.factory('buildingFactory', function(){
             baseHousePrice : 10,
             baseZennyPrice : 500
         }
-    }
+    };
 
     return factory;
 });
