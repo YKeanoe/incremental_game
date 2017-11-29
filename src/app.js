@@ -37,26 +37,26 @@ function draw(x, y, num, type) {
         // RowNum for triangle number starting from 0 
         var rowNum = num - 1;
 
-
         var rand, color;
-        rand = randomizer;
-        while(rand == randomizer){
-            rand = Math.floor(Math.random() * 6);     
+
+        // type 0 indicate grid background
+        if(type === 0){
+            color = "#4d4d4d";
+        } else {
+            rand = randomizer;
+            while(rand == randomizer){
+                rand = Math.floor(Math.random() * 6);     
+            }
+            color = colors[rand];
+            randomizer = rand;    
         }
-
-        color = colors[rand];
-
-        randomizer = rand;
-
-        // console.log(randomizer);
-
         if(num <= 9) {
             // Top first part of hex
             rowX += ( rowNum * triangleHalfSideLength ) + offset1;
-            if(num % 2 === 0) {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
+            if(num % 2 === 0) {    
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             }
         } else if(num <= 20) {
             // Top second part of hex
@@ -64,9 +64,9 @@ function draw(x, y, num, type) {
             rowY += triangleSideLength;
 
             if(num % 2 !== 0) {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             }
         } else if(num <= 33) {
             // Top third part of hex
@@ -75,55 +75,47 @@ function draw(x, y, num, type) {
 
 
             if(num % 2 === 0) { 
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color);            
             } else {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             }
         } else if(num <= 46) {
             // Middle bottom part of hex
             rowX += (rowNum - 33) * triangleHalfSideLength;
             rowY += triangleSideLength * 3;
 
-
             if(num %2 !== 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             } else {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color);            
             }
         } else if(num <= 57) {
             // Middle bottom part of hex
             rowX += ((rowNum - 46) * triangleHalfSideLength) + offset2;
             rowY += triangleSideLength * 4;
 
-
             if(num % 2 === 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             } else{
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color);            
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color);            
             }
         } else{
             // Bottom part of hex
             rowX += ((rowNum - 57) * triangleHalfSideLength) + offset1;
             rowY += triangleSideLength * 5;
-
             
             if(num %2 !== 0) {
-                drawTriangle(ctx, triangleSideLength, rowX, rowY, type, color);
+                drawTriangle(ctx, triangleSideLength, rowX, rowY, color);
             } else {
-                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, type, color); 
+                drawTriangleInvert(ctx, triangleSideLength, rowX, rowY, color); 
             }
         }
     }
 }
 
 // function to draw /\ triangle,
-function drawTriangle(ctx, side, x, y, type, color){
-    if(type===0){
-        ctx.globalCompositeOperation='source-over';
-    } else{        
-        ctx.globalCompositeOperation='destination-out';
-    }
-
+function drawTriangle(ctx, side, x, y, color){
+    ctx.globalCompositeOperation='source-over';
     ctx.beginPath();
     // move to bottom left
     ctx.moveTo(x, y + side);
@@ -138,13 +130,8 @@ function drawTriangle(ctx, side, x, y, type, color){
 }
 
 // function to draw \/ triangle
-function drawTriangleInvert(ctx, side, x, y, type, color){
-    if(type===0){
-        ctx.globalCompositeOperation='source-over';
-    } else{        
-        ctx.globalCompositeOperation='destination-out';
-    }
-
+function drawTriangleInvert(ctx, side, x, y, color){
+    ctx.globalCompositeOperation='source-over';
     ctx.beginPath();
     // move to top left
     ctx.moveTo(x, y);
@@ -156,7 +143,7 @@ function drawTriangleInvert(ctx, side, x, y, type, color){
     ctx.fillStyle=color;        
     
     ctx.fill();
-    ctx.closePath();
+    ctx.closePath();    
 }
 
 function changeActiveTab(route){
@@ -250,6 +237,8 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     var counter;
     // pageTriangles store page's current triangles
     var pageTriangles = 0;
+    // pageGrid store page's current grid
+    var pageGrid = 0;
     // Store when the page stopped
     var stopTimer = 0;
 
@@ -264,6 +253,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         changeActiveTab($route.current.originalPath);
         updatePageScope();
         checkGrid();
+        checkTriangle();
         $scope.pageInterval();
     });
 
@@ -443,34 +433,123 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     }
 
     function checkBuyHamlet(num){
-        if($scope.zenny >= num * buildingFactory.hamlet.zennyPrice && $scope.house >= buildingFactory.hamlet.housePrice * num){
-            return false;
-        } else{
-            return true;
-        }
+        var zenny = $scope.zenny >= (num * buildingFactory.hamlet.zennyPrice);
+        var sim = $scope.sim >= (num * buildingFactory.hamlet.simPrice)
+        var build = $scope.house >= (num * buildingFactory.hamlet.housePrice)
+        
+        return true;
     }
 
     // checkGrid function checks the current page triangles
     // with the data. 
     function checkGrid(){
-        var maxTriangles = 2904;
-        
-        // Return if nothing to draw.
-        if(Math.floor($scope.sim) === 0 && pageTriangles === 0){
+        var maxGrid = 44;
+        var diff;
+
+        if($route.current.originalPath == "/"){
+            // Return if nothing to draw.
+            if(Math.floor($scope.house) === 0 && pageGrid === 0){
+                return;
+            }
+            // Count the difference page's triangles and grid with the data
+            diff = Math.floor($scope.house) - pageGrid;
+            
+        } else if($route.current.originalPath == "/hamlet"){
+            // Return if nothing to draw.
+            if(Math.floor($scope.hamlet) === 0 && pageGrid === 0){
+                return;
+            }
+            // Count the difference page's triangles with the data
+            diff = Math.floor($scope.hamlet) - pageGrid;
+        }else if($route.current.originalPath == "/village"){
+        }else if($route.current.originalPath == "/town"){
+        }else if($route.current.originalPath == "/city"){
+        }else if($route.current.originalPath == "/kingdom"){
+        }else if($route.current.originalPath == "/empire"){
+        }else {
+        }
+
+        // Return if page is full
+        if(pageGrid > maxGrid){
             return;
         }
-        
+
+        // Get the grid locations
+        var loc = GridLocation;  
+        var grid, rownum, limit;
+
+        if(diff === 0){
+            // If there's not difference, then return
+            return;
+        } else{
+            if(diff > 0){
+                if(maxGrid < Math.floor($scope.house)){
+                    limit = maxGrid;
+                } else {
+                    limit = Math.floor($scope.house);
+                }
+
+                // If there are positive difference, add using loop
+                for(var i = pageGrid; i<limit; i++){
+                    grid = i;            
+                    rownum = i;     
+                    for(var j = 0; j<66; j++){            
+                        draw(loc[grid][0],loc[grid][1], j, 0);
+                    }
+                    pageGrid++;
+                }
+            } else{
+                // Changed to just clear canvas and redraw from scratch.
+                // Clearing each triangles leave some pixels
+                clearCanvas();
+                pageGrid = 0;
+                pageTriangles = 0;
+                checkGrid();
+                checkTriangle();
+            }
+        }  
+    }
+
+    // checkTriangle function checks the current page triangles
+    // with the data. 
+    function checkTriangle(){
+        var maxTriangles = 2904;
+        var maxGrid = 44;
+        var diff;
+
+        if($route.current.originalPath == "/"){
+            // Return if nothing to draw.
+            if(Math.floor($scope.sim) === 0 && pageTriangles === 0){
+                return;
+            }
+            // Count the difference page's triangles and grid with the data
+            diff = Math.floor($scope.sim) - pageTriangles;
+            
+        } else if($route.current.originalPath == "/hamlet"){
+            // Return if nothing to draw.
+            if(Math.floor($scope.house) === 0 && pageTriangles === 0){
+                return;
+            }
+            // Count the difference page's triangles with the data
+            diff = Math.floor($scope.sim) - pageTriangles;
+    
+        }else if($route.current.originalPath == "/village"){
+        }else if($route.current.originalPath == "/town"){
+        }else if($route.current.originalPath == "/city"){
+        }else if($route.current.originalPath == "/kingdom"){
+        }else if($route.current.originalPath == "/empire"){
+        }else {
+        }
+
         // Return if page is full
         if(pageTriangles > maxTriangles){
             return;
         }
 
-        // Count the difference page's triangles with the data
-        var diff = Math.floor($scope.sim) - pageTriangles;
-
         // Get the grid locations
         var loc = GridLocation;  
         var grid, rownum, limit;
+
         if(diff === 0){
             // If there's not difference, then return
             return;
@@ -486,24 +565,17 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
                 for(var i = pageTriangles; i<limit; i++){
                     grid = Math.floor(i / 66);            
                     rownum = i % 66;            
-                    draw(loc[grid][0],loc[grid][1], rownum, 0);
+                    draw(loc[grid][0],loc[grid][1], rownum, 1);
                     pageTriangles++;
                 }
             } else{
-                /*
-                // If there are negative difference, add using loop
-                for(var i = pageTriangles; i>Math.floor($scope.sim); i--){
-                    console.log("rem" + i);
-                    grid = Math.floor(i / 66);            
-                    rownum = i % 66;            
-                    draw(loc[grid][0],loc[grid][1], rownum-1, 1);
-                    pageTriangles--;
-                }*/
                 // Changed to just clear canvas and redraw from scratch.
                 // Clearing each triangles leave some pixels
                 clearCanvas();
                 pageTriangles = 0;
+                pageGrid = 0;
                 checkGrid();
+                checkTriangle();
             }
         }  
     }
@@ -521,7 +593,8 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             if($scope.sim === 0){
                 return;
             } else{
-                checkGrid();            
+                checkGrid();
+                checkTriangle();
             }
         }, 17);//17ms interval is 60fps
     };
@@ -626,6 +699,7 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         updatePageScope();
         // Check grid and start page interval.
         checkGrid();
+        checkTriangle();
         $scope.pageInterval();
     });
 

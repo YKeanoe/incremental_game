@@ -58,13 +58,13 @@
                 Each hamlet increase birth rate by 10 and increase death rate by 5%.
             </div>
             <div class="build-btns">
-                <button ng-disabled="checkBuyHamlet(1)" ng-click="buyHamlet(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyHamlet(haHamlet)" ng-click="buyHamlet(2)" type="button" class="btn btn-outline-primary">Buy {{haHamlet}}</button>
-                <button ng-disabled="checkBuyHamlet(fHamlet)" ng-click="buyHamlet(3)" type="button" class="btn btn-outline-primary">Buy {{fHamlet}}</button>
+                <button ng-disabled="checkBuy('hamlet', 1)" ng-click="buy('hamlet', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('hamlet', haHamlet)" ng-click="buy('hamlet', 2)" type="button" class="btn btn-outline-primary">Buy {{haHamlet}}</button>
+                <button ng-disabled="checkBuy('hamlet', fHamlet)" ng-click="buy('hamlet', 3)" type="button" class="btn btn-outline-primary">Buy {{fHamlet}}</button>
             </div>
             <div class="build-input">
                 <input ng-model="iHamlet" ng-init="iHamlet=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-                <button ng-disabled="checkBuyHamlet(iHamlet)" ng-click="buyHamlet(4)" type="button" class="btn btn-outline-primary">Buy {{iHamlet}}</button>        
+                <button ng-disabled="checkBuy('hamlet', iHamlet)" ng-click="buy('hamlet', 4)" type="button" class="btn btn-outline-primary">Buy {{iHamlet}}</button>        
                 <hr>
             </div>
         </div>

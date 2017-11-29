@@ -48,8 +48,24 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             spnation : 0
         },
 
+        limit:{
+            zenny: 100000,
+            sim: 20,
+            house : 1000,
+            hamlet : 1000,
+            village : 0,
+            town : 0,
+            city : 0,
+            kingdom : 0,
+            empire : 0,
+            spnation : 0
+        },
+
         UpdateModel: function(){
             service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.017;
+            if(service.model.sim >= service.limit.sim){
+                service.model.sim = service.limit.sim;
+            }
             service.model.zenny += ((service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny) * 0.017;
             //console.log("tick");
         },
@@ -58,7 +74,8 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             service.model.house += num;
             service.model.sim -= num * buildingFactory.house.simPrice;  
             service.model.zenny -= num * buildingFactory.house.zennyPrice;
-            service.UpdateModifier();         
+            service.UpdateModifier();     
+            service.UpdateLimit();            
         },
 
         BuyFarm: function(num){
@@ -91,6 +108,7 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             service.model.house -= num * buildingFactory.hamlet.housePrice;  
             service.model.zenny -= num * buildingFactory.hamlet.zennyPrice;
             service.UpdateModifier();
+            service.UpdateLimit();            
         },
 
         UpdateModifier: function(){
@@ -106,6 +124,10 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
                             + (0.05 * service.model.barn); /* hamlet modifier */
         },
         
+        UpdateLimit: function(){
+            service.limit.sim = service.model.house * 66;
+        },
+
         GetSimRate: function(){
             return (service.basePointsPerSecond.sim * service.modifier.sim) - (service.basePointsPerSecond.death * service.modifier.death) /* deat rate*/;
         },
