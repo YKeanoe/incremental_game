@@ -434,10 +434,9 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
 
     function checkBuyHamlet(num){
         var zenny = $scope.zenny >= (num * buildingFactory.hamlet.zennyPrice);
-        var sim = $scope.sim >= (num * buildingFactory.hamlet.simPrice)
-        var build = $scope.house >= (num * buildingFactory.hamlet.housePrice)
-        
-        return true;
+        var sim = $scope.sim >= (num * buildingFactory.hamlet.simPrice);
+        var build = $scope.house >= (num * buildingFactory.hamlet.housePrice);
+        return !(zenny && sim && build);
     }
 
     // checkGrid function checks the current page triangles
