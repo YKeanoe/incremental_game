@@ -69,44 +69,44 @@
             </div>
         </div>
         <div ng-hide="hamlet==0">
-            <div class="build-title">                        
-                <b>Church ({{church}})</b>
-            </div>
-            <div class="build-price">
-                Cost {{farmZPrice | number : 2 }} Zenny.
-            </div>
-            <div class="build-info">                        
-                    Each church increase the income for each sim by 0.1 and decrease birth rate for each hamlet by 20%.
-            </div>  
-            <div class="build-btns">
-                <button ng-disabled="checkBuyFarm(1)" ng-click="buyFarm(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyFarm(haFarm)" ng-click="buyFarm(2)" type="button" class="btn btn-outline-primary">Buy {{haFarm}}</button>
-                <button ng-disabled="checkBuyFarm(fFarm)" ng-click="buyFarm(3)" type="button" class="btn btn-outline-primary">Buy {{fFarm}}</button>
-            </div>
-            <div class="build-input">                        
-                <input ng-model="iFarm" ng-init="iFarm=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-                <button ng-disabled="checkBuyFarm(iFarm)" ng-click="buyFarm(4)" type="button" class="btn btn-outline-primary">Buy {{iFarm}}</button>        
-                <hr>
-            </div>
-        </div>
-        <div ng-hide="church==0">
             <div class="build-title">
                 <b>Mill ({{mill}})</b>
             </div>
             <div class="build-price">
-                Cost {{barnZPrice | number : 2}} Zenny.
+                Cost {{millZPrice | number : 2}} Zenny.
             </div>
             <div class="build-info">
-                Each mill incrase birth rate for each hamlet by 10%.
+                Each mill increase income per sim by 0.05 and increase death rate by 5%.
             </div>
             <div class="build-btns">                                            
-                <button ng-disabled="checkBuyBarn(1)" ng-click="buyBarn(1)" type="button" class="btn btn-outline-primary">Buy 1</button>
-                <button ng-disabled="checkBuyBarn(haBarn)" ng-click="buyBarn(2)" type="button" class="btn btn-outline-primary">Buy {{haBarn}}</button>
-                <button ng-disabled="checkBuyBarn(fBarn)" ng-click="buyBarn(3)" type="button" class="btn btn-outline-primary">Buy {{fBarn}}</button>
+                <button ng-disabled="checkBuy('mill', 1)" ng-click="buy('mill', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('mill', haMill)" ng-click="buy('mill', 2)" type="button" class="btn btn-outline-primary">Buy {{haMill}}</button>
+                <button ng-disabled="checkBuy('mill', fMill)" ng-click="buy('mill', 3)" type="button" class="btn btn-outline-primary">Buy {{fMill}}</button>
             </div>
             <div class="build-input">                                            
-                <input ng-model="iBarn" ng-init="iBarn=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
-                <button ng-disabled="checkBuyBarn(iBarn)" ng-click="buyBarn(4)" type="button" class="btn btn-outline-primary">Buy {{iBarn}}</button>                
+                <input ng-model="iMill" ng-init="iMill=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuy('mill', iMill)" ng-click="buy('mill', 4)" type="button" class="btn btn-outline-primary">Buy {{iMill}}</button>                
+            </div>
+        </div>
+        <div ng-hide="hamlet==0">
+            <div class="build-title">                        
+                <b>Church ({{church}})</b>
+            </div>
+            <div class="build-price">
+                Cost {{churchZPrice | number : 2 }} Zenny.
+            </div>
+            <div class="build-info">                        
+                    Each church help each hamlet to build a 0.1 house every second.
+            </div>  
+            <div class="build-btns">
+                <button ng-disabled="checkBuy('church', 1)" ng-click="buy('church', 1)" type="button" class="btn btn-outline-primary">Buy 1</button>
+                <button ng-disabled="checkBuy('church', haChurch)" ng-click="buy('church', 2)" type="button" class="btn btn-outline-primary">Buy {{haChurch}}</button>
+                <button ng-disabled="checkBuy('church', fChurch)" ng-click="buy('church', 3)" type="button" class="btn btn-outline-primary">Buy {{fChurch}}</button>
+            </div>
+            <div class="build-input">                        
+                <input ng-model="iChurch" ng-init="iChurch=1" type="text" value="1" ng-pattern="/^[0-9]*$/">
+                <button ng-disabled="checkBuy('church', iChurch)" ng-click="buy('church', 4)" type="button" class="btn btn-outline-primary">Buy {{iChurch}}</button>        
+                <hr>
             </div>
         </div>
     </div>  

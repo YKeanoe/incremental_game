@@ -1,0 +1,49 @@
+<div>    
+    <div class="panel-side left-div">
+        <h1>
+            Sim <span class="grey">+{{simRate | number : 2 }}/second</span>
+            <br />
+            {{sim | round:'':'down'}} 
+            <br />
+            <span class="add-info">
+                <span class="birth">Birth rate: {{birthRate | number : 2 }}</span>
+                <br />
+                <span class="death">Death rate: {{deathRate | number : 2 }}</span>
+                <br />
+                <span>Income rate: {{incomeRate | number : 2 }}/sim</span>
+            </span>
+        </h1>
+
+        <h1>
+            Zenny 
+            <span class="grey">+{{zennyRate | number : 2}}/second</span>
+            <br />
+            {{zenny | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="house==0">
+            House 
+            <span class="grey">+{{houseRate | number : 2}}/second</span>
+            <br />
+            {{house | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="hamlet==0">
+            Hamlet 
+            <span class="grey">+{{hamletRate | number : 2}}/second</span>
+            <br />
+            {{hamlet | number : 2 }}
+        </h1>
+
+        <h1 ng-hide="village==0">
+            Village 
+            <span class="grey">+{{villageRate | number : 2}}/second</span>
+            <br />
+            {{village | number : 2 }}
+        </h1>
+
+    </div>
+    <div class="panel-two-third right-div">
+
+    </div>  
+</div>

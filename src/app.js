@@ -168,6 +168,9 @@ function changeActiveTab(route){
     }else if(route == "/empire"){
         $("#panel-tab>ul>li>a.active").removeClass("active");
         $("#panel-tab>ul>li:nth-of-type(7)>a").addClass( "active" );
+    }else if(route == "/event"){
+        $("#panel-tab>ul>li>a.active").removeClass("active");
+        $("#panel-tab>ul>li:nth-of-type(8)>a").addClass( "active" );
     }else {
         $("#panel-tab>ul>li>a.active").removeClass("active");
         $("#panel-tab>ul>li>a:nth-of-type(9)>a").addClass( "active" );
@@ -308,6 +311,15 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             $scope.hamletSPrice = buildingFactory.hamlet.simPrice;        
             $scope.haHamlet = GetAvailable("hamlet", "half");        
             $scope.fHamlet = GetAvailable("hamlet", "full");                    
+            $scope.mill = userService.model.mill;            
+            $scope.millZPrice = buildingFactory.mill.zennyPrice;        
+            $scope.haMill = GetAvailable("mill", "half");        
+            $scope.fMill = GetAvailable("mill", "full");
+            $scope.church = userService.model.church;            
+            $scope.churchZPrice = buildingFactory.church.zennyPrice;        
+            $scope.haChurch = GetAvailable("church", "half");        
+            $scope.fChurch = GetAvailable("church", "full");                    
+
         }else if($route.current.originalPath == "/village"){
         }else if($route.current.originalPath == "/town"){
         }else if($route.current.originalPath == "/city"){
@@ -385,6 +397,28 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
                     ret = b;
                 }
             }
+        } else if (type == "mill"){
+            money = $scope.zenny;
+            price = buildingFactory.mill.zennyPrice;            
+            while(money >= price){
+                ret++;
+                money -= price;
+                price += buildingFactory.mill.baseZennyPrice;
+            }
+            if(getter == "half"){
+                ret = Math.floor(ret/2);
+            }
+        } else if (type == "church"){
+            money = $scope.zenny;
+            price = buildingFactory.church.zennyPrice;            
+            while(money >= price){
+                ret++;
+                money -= price;
+                price += price;
+            }
+            if(getter == "half"){
+                ret = Math.floor(ret/2);
+            }
         }
         
         if(ret === 0){
@@ -403,6 +437,10 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             return checkBuyBarn(num);
         } else if (type == "hamlet"){
             return checkBuyHamlet(num);
+        } else if (type == "mill"){
+            return checkBuyMill(num);
+        } else if (type == "church"){
+            return checkBuyChurch(num);
         } else{
             return false;
         }
@@ -439,27 +477,45 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         return !(zenny && sim && build);
     }
 
+    function checkBuyMill(num){
+        if($scope.zenny >= num * buildingFactory.mill.zennyPrice){
+            return false;
+        } else{
+            return true;
+        }
+    }
+    
+    function checkBuyChurch(num){
+        if($scope.zenny >= num * buildingFactory.church.zennyPrice){
+            return false;
+        } else{
+            return true;
+        }
+    }
+
     // checkGrid function checks the current page triangles
     // with the data. 
     function checkGrid(){
         var maxGrid = 44;
         var diff;
+        var scope;
 
         if($route.current.originalPath == "/"){
+            scope = $scope.house;            
             // Return if nothing to draw.
-            if(Math.floor($scope.house) === 0 && pageGrid === 0){
+            if(Math.floor(scope) === 0 && pageGrid === 0){
                 return;
             }
             // Count the difference page's triangles and grid with the data
-            diff = Math.floor($scope.house) - pageGrid;
-            
+            diff = Math.floor(scope) - pageGrid;
         } else if($route.current.originalPath == "/hamlet"){
+            scope = $scope.hamlet;
             // Return if nothing to draw.
-            if(Math.floor($scope.hamlet) === 0 && pageGrid === 0){
+            if(Math.floor(scope) === 0 && pageGrid === 0){
                 return;
             }
             // Count the difference page's triangles with the data
-            diff = Math.floor($scope.hamlet) - pageGrid;
+            diff = Math.floor(scope) - pageGrid;
         }else if($route.current.originalPath == "/village"){
         }else if($route.current.originalPath == "/town"){
         }else if($route.current.originalPath == "/city"){
@@ -476,16 +532,17 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         // Get the grid locations
         var loc = GridLocation;  
         var grid, rownum, limit;
+        
 
         if(diff === 0){
             // If there's not difference, then return
             return;
         } else{
             if(diff > 0){
-                if(maxGrid < Math.floor($scope.house)){
+                if(maxGrid < Math.floor(scope)){
                     limit = maxGrid;
                 } else {
-                    limit = Math.floor($scope.house);
+                    limit = Math.floor(scope);
                 }
 
                 // If there are positive difference, add using loop
@@ -515,23 +572,25 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         var maxTriangles = 2904;
         var maxGrid = 44;
         var diff;
+        var scope;
 
         if($route.current.originalPath == "/"){
+            scope = $scope.sim;
             // Return if nothing to draw.
-            if(Math.floor($scope.sim) === 0 && pageTriangles === 0){
+            if(Math.floor(scope) === 0 && pageTriangles === 0){
                 return;
             }
             // Count the difference page's triangles and grid with the data
-            diff = Math.floor($scope.sim) - pageTriangles;
+            diff = Math.floor(scope) - pageTriangles;
             
         } else if($route.current.originalPath == "/hamlet"){
+            scope = $scope.house;
             // Return if nothing to draw.
-            if(Math.floor($scope.house) === 0 && pageTriangles === 0){
+            if(Math.floor(scope) === 0 && pageTriangles === 0){
                 return;
             }
             // Count the difference page's triangles with the data
-            diff = Math.floor($scope.sim) - pageTriangles;
-    
+            diff = Math.floor(scope) - pageTriangles;
         }else if($route.current.originalPath == "/village"){
         }else if($route.current.originalPath == "/town"){
         }else if($route.current.originalPath == "/city"){
@@ -554,10 +613,10 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             return;
         } else{
             if(diff > 0){
-                if(maxTriangles < Math.floor($scope.sim)){
+                if(maxTriangles < Math.floor(scope)){
                     limit = maxTriangles;
                 } else {
-                    limit = Math.floor($scope.sim);
+                    limit = Math.floor(scope);
                 }
 
                 // If there are positive difference, add using loop
@@ -607,6 +666,10 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
             return buyBarn(num);
         } else if (type == "hamlet"){
             return buyHamlet(num);
+        } else if (type == "mill"){
+            return buyMill(num);
+        } else if (type == "church"){
+            return buyChurch(num);
         } else{
             
         }
@@ -664,6 +727,31 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
         }
     }
 
+    function buyMill(num){
+        if(num == 1){
+            userService.BuyMill(1);            
+        } else if(num == 2){
+            userService.BuyMill($scope.haMill);            
+        }else if(num == 3){
+            userService.BuyMill($scope.fMill);            
+        } else{
+            // *1 to change iFarm to int
+            userService.BuyMill($scope.iMill*1);            
+        }
+    }
+    function buyChurch(num){
+        if(num == 1){
+            userService.BuyChurch(1);            
+        } else if(num == 2){
+            userService.BuyChurch($scope.haChurch);            
+        }else if(num == 3){
+            userService.BuyChurch($scope.fChurch);            
+        } else{
+            // *1 to change iFarm to int
+            userService.BuyChurch($scope.iChurch*1);            
+        }
+    }
+
     // stopPageInterval, like the name suggest, stops the page's
     // interval and set the counter to undefined.
     function stopPageInterval(){
@@ -704,6 +792,10 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
 
 });
 
+app.controller('eventController', function(userService, ModelInterval, GridLocation, buildingFactory, $scope, $interval, $location, $route) {
+
+});    
+
 // Route config for SPA (Single-Page-Application)
 app.config(function($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
@@ -715,6 +807,10 @@ app.config(function($routeProvider, $locationProvider) {
     .when("/hamlet", {
         controller : 'mainController',        
         templateUrl : 'Pages/hamlet.html'
+    })
+    .when("/event", {
+        controller : 'eventController',        
+        templateUrl : 'Pages/event.html'
     });
 });
 

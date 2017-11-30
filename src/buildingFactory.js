@@ -31,7 +31,21 @@ app.factory('buildingFactory', function(){
             baseSimPrice : 50,
             baseHousePrice : 10,
             baseZennyPrice : 500
-        }
+        },
+
+        mill: {
+            simPrice : 0,
+            zennyPrice : 500,
+            baseSimPrice : 0,
+            baseZennyPrice : 500
+        },
+
+        church: {
+            simPrice : 0,
+            zennyPrice : 1000,
+            baseSimPrice : 0,
+            baseZennyPrice : 1000
+        },
     };
 
     return factory;

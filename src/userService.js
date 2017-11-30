@@ -10,6 +10,8 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             farm: 0,
             barn: 0,
             hamlet : 0,
+            mill : 0,
+            church : 0,
             village : 0,
             town : 0,
             city : 0,
@@ -49,7 +51,7 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
         },
 
         limit:{
-            zenny: 100000,
+            zenny: 200,
             sim: 20,
             house : 1000,
             hamlet : 1000,
@@ -61,13 +63,29 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
             spnation : 0
         },
 
+        eventChange:{
+            raid: 0.05
+        },
+
+        currentEvent:{
+            raid: false
+        },
+
         UpdateModel: function(){
             service.model.sim += (service.basePointsPerSecond.sim * service.modifier.sim) * 0.017;
+            service.model.zenny += ((service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny) * 0.017;
+            service.model.house += (service.basePointsPerSecond.house * service.modifier.house) * 0.017;
+            service.CheckModelLimit();
+            //console.log("tick");
+        },
+
+        CheckModelLimit: function(){
             if(service.model.sim >= service.limit.sim){
                 service.model.sim = service.limit.sim;
             }
-            service.model.zenny += ((service.basePointsPerSecond.zenny * Math.floor(service.model.sim)) * service.modifier.zenny) * 0.017;
-            //console.log("tick");
+            if(service.model.zenny >= service.limit.zenny){
+                service.model.zenny = service.limit.zenny;
+            }
         },
 
         BuyHouse: function(num){
@@ -105,10 +123,31 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
 
         BuyHamlet: function(num){
             service.model.hamlet += num;
+            service.model.sim -= num * buildingFactory.hamlet.simPrice;  
             service.model.house -= num * buildingFactory.hamlet.housePrice;  
             service.model.zenny -= num * buildingFactory.hamlet.zennyPrice;
             service.UpdateModifier();
             service.UpdateLimit();            
+        },
+
+        BuyMill: function(num){
+            while(num > 0){
+                service.model.mill ++;
+                service.model.zenny -= buildingFactory.mill.zennyPrice;
+                buildingFactory.mill.zennyPrice = buildingFactory.mill.baseZennyPrice + (buildingFactory.mill.baseZennyPrice * service.model.mill);
+                num --;
+            }
+            service.UpdateModifier();            
+        },
+
+        BuyChurch: function(num){
+            while(num > 0){
+                service.model.church ++;
+                service.model.zenny -= buildingFactory.church.zennyPrice;
+                buildingFactory.church.zennyPrice += buildingFactory.church.zennyPrice;
+                num --;
+            }
+            service.UpdateModifier();            
         },
 
         UpdateModifier: function(){
@@ -117,15 +156,26 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
                             + (service.model.house * (service.model.farm * 0.1)) /* farm modifier */
                             + (service.model.house * (service.model.barn * 0.2)) /* barn modifier */
                             + (10 * service.model.hamlet); /* hamlet modifier */
-                            
+
             service.modifier.death = 1 /* base */
                             - (0.01 * service.model.house) /* house modifier */
                             + (0.03 * service.model.barn) /* barn modifier */
-                            + (0.05 * service.model.barn); /* hamlet modifier */
+                            + (0.05 * service.model.hamlet) /* hamlet modifier */
+                            + (0.05 * service.model.mill); /* Mill modifier */
+ 
+            service.basePointsPerSecond.zenny = 0.1  /* Base */
+                            + (service.model.mill * 0.05); /* Mill modifier */
+
+            service.basePointsPerSecond.house = 0 /* Base */
+                            + (service.model.church * 0.1);
         },
         
         UpdateLimit: function(){
-            service.limit.sim = service.model.house * 66;
+            service.limit.sim = service.model.house * 66 /* House limit modifier */
+                            + service.model.hamlet * 1000; /* Hamlet limit modifier*/
+
+            service.limit.zenny = service.model.house * 500 /* House limit modifier */
+                            + service.model.hamlet * 5000; /* Hamlet limit modifier */
         },
 
         GetSimRate: function(){
