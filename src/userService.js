@@ -53,7 +53,7 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
         limit:{
             zenny: 200,
             sim: 20,
-            house : 1000,
+            house : 20,
             hamlet : 1000,
             village : 0,
             town : 0,
@@ -176,6 +176,10 @@ app.factory('userService', ['$rootScope', '$interval', 'buildingFactory', functi
 
             service.limit.zenny = service.model.house * 500 /* House limit modifier */
                             + service.model.hamlet * 5000; /* Hamlet limit modifier */
+
+            service.limit.house = service.model.hamlet * 66; /* Hamlet limit modifier */
+
+
         },
 
         GetSimRate: function(){

@@ -447,10 +447,15 @@ app.controller('mainController', function(userService, ModelInterval, GridLocati
     };
 
     function checkBuyHouse(num){
+        var bool;
         if($scope.zenny >= num * buildingFactory.house.zennyPrice && $scope.sim >= buildingFactory.house.simPrice * num){
-            return false;
+            bool = false;
         } else{
-            return true;
+            bool = true;
+        }
+
+        if(bool){
+            
         }
     }
 
